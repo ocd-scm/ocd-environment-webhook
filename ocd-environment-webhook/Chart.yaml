@@ -1,0 +1,10 @@
+name: ocd-environment-webhook
+description: A webhook that triggers ocd-builder
+home: https://github.com/ocd-scm/ocd-environment-webhook
+keywords:
+- ocd-environment-webhook
+- ocd-scm
+- openshift
+sources:
+- https://github.com/ocd-scm/ocd-environment-webhook
+version: "1.0.0"

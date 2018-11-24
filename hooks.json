@@ -1,0 +1,60 @@
+[
+  {
+    "id": "ocd-environment-webhook",
+    "execute-command": "/usr/local/bin/helm-apply-config.sh",
+    "command-working-directory": "/opt/app-root/work",
+    "pass-arguments-to-command":
+    [
+      {
+        "source": "payload",
+        "name": "repository.full_name"
+      },
+      {
+        "source": "payload",
+        "name": "ref"
+      }
+    ],
+    "trigger-rule":
+    {
+      "and":
+      [
+        {
+          "match":
+          {
+            "type": "value",
+            "value": "{{ getenv "WEBHOOK_SECRET" | js }}",
+            "parameter":
+            {
+              "source": "payload",
+              "name": "secret"
+            }
+          }
+        },
+        {
+          "match":
+          {
+            "type": "value",
+            "value": "{{ getenv "WEBHOOK_REPO_FULLNAME" | js }}",
+            "parameter":
+            {
+              "source": "payload",
+              "name": "repository.full_name"
+            }
+          }
+        },
+        {
+          "match":
+          {
+            "type": "regex",
+            "regex": "{{ getenv "WEBHOOK_REF_REGEX" | js }}",
+            "parameter":
+            {
+              "source": "payload",
+              "name": "ref"
+            }
+          }
+        }
+      ]
+    }
+  }
+]

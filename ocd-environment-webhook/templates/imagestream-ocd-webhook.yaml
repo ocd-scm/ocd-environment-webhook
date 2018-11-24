@@ -1,0 +1,11 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+    name: ocd-environment-webhook
+spec:
+    dockerImageRepository: docker.io/simonmassey/ocd-environment-webhook
+    tags:
+      - name: "latest"
+        from:
+            kind: DockerImage
+            name: docker.io/simonmassey/ocd-environment-webhook:latest

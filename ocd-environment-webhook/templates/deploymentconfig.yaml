@@ -1,0 +1,98 @@
+kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  name: {{ .Values.name | quote }}
+  labels:
+    app: {{ .Values.name | quote }}
+    template: ocd-environment-webhook
+  annotations:
+    description: Webook to trigger environment update
+    template.alpha.openshift.io/wait-for-ready: 'true'
+spec:
+  strategy:
+    type: Rolling
+  triggers:
+  - type: ImageChange
+    imageChangeParams:
+      automatic: true
+      containerNames:
+      -  {{ .Values.name | quote }}
+      from:
+        kind: ImageStreamTag
+        name: {{ print .Values.name ":latest" | quote }}
+  - type: ConfigChange
+  replicas: {{ .Values.replicas }}
+  selector:
+    name: {{ .Values.name | quote }}
+  selector:
+    name: {{ .Values.name | quote }}
+  template:
+    metadata:
+      name: {{ .Values.name | quote }}
+      labels:
+        name: {{ .Values.name | quote }}
+    spec:
+      revisionHistoryLimit: 10,
+      strategy:
+        type: Rolling
+      containers:
+      - env:
+          {{- if .Values.insecureSkipTlsVerify }}
+          - name: "INSECURE_SKIP_TLS_VERIFY"
+            value: "--insecure-skip-tls-verify"
+          {{- end }}
+          - name: "WEBHOOK_REPO_FULLNAME"
+            value: {{ required "Missing required value webhookRepFullname" .Values.webhookRepFullname | quote }}
+          - name: "ENV_GIT_URL"
+            value: {{ required "Missing required value envGitUrl" .Values.envGitUrl | quote }}
+          {{- if .Values.webhookRefRegex }}
+          - name: "WEBHOOK_REF_REGEX"
+            value: {{ .Values.webhookRefRegex | quote }}
+          {{- else }}
+          - name: "WEBHOOK_REF_REGEX"
+            value: "master"
+          {{- end }}
+          {{- if .Values.webhookSecret }}
+          - name: "WEBHOOK_SECRET"
+            value: {{ .Values.webhookSecret | quote }}
+          {{- else }}
+          {{- if .Release.IsInstall }}
+          - name: "WEBHOOK_SECRET"
+            value: {{ randAlphaNum 10 | quote }}
+          {{- end }}
+          {{- end }}
+          {{- range .Values.deploy_env }}
+          - name: {{ .name }}
+            value: {{ .value  | quote }}
+          {{- end }}
+        envFrom:
+        {{- range .Values.secrets }}
+          - secretRef:
+              name: {{ .name }}
+            {{- if .prefix }}
+            prefix: {{ .prefix_value }} 
+            {{- end }}
+        {{- end }}
+        name: {{ .Values.name | quote }}
+        image: " "
+        ports:
+        - containerPort: {{ .Values.port }}
+        resources:
+          limits:
+            memory: {{ .Values.memory_limit | quote }}
+        {{- if .Values.volumeMounts }}
+        volumeMounts:
+        {{- range $key, $val := .Values.volumeMounts }}
+          - name: {{ $key }}
+            mountPath: {{ $val.mountPath}}
+        {{- end}}
+        {{ end }}
+      {{- if .Values.secretVolumes }}
+      volumes:
+      {{- range $key, $val := .Values.secretVolumes }}
+        - name: {{ $key }}
+          secret: 
+            defaultMode: {{ $val.defaultMode}}
+            secretName: {{ $val.secretName}}
+      {{- end}}
+      {{ end }}

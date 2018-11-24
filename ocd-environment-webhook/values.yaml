@@ -1,0 +1,18 @@
+# Name: The name assigned to all of the frontend objects defined in this template.
+name: ocd-environment-webhook
+# Memory Limit: Maximum amount of memory the container can use.
+memory_limit: 512Mi
+# Application Hostname: The exposed hostname that will route to the Node.js service, if left blank a value will be defaulted.
+application_domain:
+# replicas
+replicas: 1
+# port
+port: 9000
+# webhookRepFullname: @required Sets WEBHOOK_REPO_FULLNAME which is matched on the webhook rule e.g. simbo1905/demo1
+# envGitUrl: @required Sets ENV_GIT_URL the git repo where the environment state is stored.
+# insecureSkipTlsVerify: Whether to set --insecure-skip-tls-verify needed for minishift deployment 
+insecureSkipTlsVerify: false
+# secrets to mount as env vars
+secrets:
+  - name: ocd-builder-credentials
+    prefix: false
