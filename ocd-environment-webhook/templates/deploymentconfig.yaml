@@ -41,8 +41,14 @@ spec:
           - name: "INSECURE_SKIP_TLS_VERIFY"
             value: "--insecure-skip-tls-verify"
           {{- end }}
+          {{- if .Values.helmVersion }}
+          - name: "HELM_VERSION"
+            value: {{ .Values.helmVersion | quote }}
+          {{- end }}
           - name: "WEBHOOK_REPO_FULLNAME"
             value: {{ required "Missing required value webhookRepFullname" .Values.webhookRepFullname | quote }}
+          - name: "PROJECT"
+            value: {{ required "Missing required value project" .Values.project | quote }}
           - name: "ENV_GIT_URL"
             value: {{ required "Missing required value envGitUrl" .Values.envGitUrl | quote }}
           {{- if .Values.webhookRefRegex }}

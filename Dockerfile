@@ -12,17 +12,19 @@
 #  - helm 2.9.0 
 #  - webhook 2.6.9
 
-FROM simonmassey/ocd-tools
+FROM simonmassey/ocd-tools:v1.0.2
 
 MAINTAINER Simon Massey <simbo1905@60hertz.com>
 
 COPY ./bin/* /usr/local/bin/
 
+RUN mkdir /opt/app-root/src/.kube && chmod -R a+w /opt/app-root/src
+
 COPY hooks.json /opt/app-root/src
 
-RUN mkdir /opt/app-root/src/.kube && chmod -R a+w /opt/app-root/src/.kube
-
 RUN mkdir -p /opt/app-root/work && chmod -R a+w /opt/app-root/work
+
+RUN mkdir -p /opt/app-root/src/.ssh && chmod -R a+w /opt/app-root/src/.ssh
 
 USER 1001
 

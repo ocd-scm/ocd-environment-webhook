@@ -8,11 +8,13 @@ application_domain:
 replicas: 1
 # port
 port: 9000
-# webhookRepFullname: @required Sets WEBHOOK_REPO_FULLNAME which is matched on the webhook rule e.g. simbo1905/demo1
-# envGitUrl: @required Sets ENV_GIT_URL the git repo where the environment state is stored.
-# insecureSkipTlsVerify: Whether to set --insecure-skip-tls-verify needed for minishift deployment 
 insecureSkipTlsVerify: false
 # secrets to mount as env vars
 secrets:
   - name: ocd-builder-credentials
     prefix: false
+# webhookRepFullname: @required Sets WEBHOOK_REPO_FULLNAME which is matched on the webhook rule e.g. simbo1905/demo1
+# envGitUrl: @required Sets ENV_GIT_URL the git repo where the environment state is stored.
+# insecureSkipTlsVerify: Whether to set --insecure-skip-tls-verify needed for minishift deployment. 
+# project: @required The project that is the environment to upgrade
+# helmVersion: The version of helm to use. Defaults to 2.9.0. 2.8.1 is also installed for minishift.

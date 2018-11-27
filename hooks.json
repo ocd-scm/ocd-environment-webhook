@@ -45,8 +45,8 @@
         {
           "match":
           {
-            "type": "regex",
-            "regex": "{{ getenv "WEBHOOK_REF_REGEX" | js }}",
+            "type": "value",
+            "value": "{{ getenv "WEBHOOK_REF" | js }}",
             "parameter":
             {
               "source": "payload",
