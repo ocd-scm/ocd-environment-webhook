@@ -1,0 +1,33 @@
+repositories:
+  - name: ocd-meta 
+    url: https://ocd-scm.github.io/ocd-meta/charts
+
+releases:
+  - name: ocd-oc-credentials
+    labels:
+      secret: ocd-oc-credentials
+    chart: ocd-meta/ocd-secret
+    version: ~1.0.0
+    values:
+      - name: ocd-oc-credentials
+      - env_vars: 
+        - key: OPENSHIFT_SERVER
+          value: "{{ requiredEnv "OPENSHIFT_SERVER" }}"
+        - key: OPENSHIFT_USER
+          value: "{{ requiredEnv "OPENSHIFT_USER" }}"
+        - key: OPENSHIFT_PASSWORD
+          value: "{{ requiredEnv "OPENSHIFT_PASSWORD" }}"
+  - name: ocd-environment-webhook
+    labels:
+      builder: realworld
+    chart: ./ocd-environment-webhook
+    version: ~1.0.0
+    values:
+      - project: realworld
+      - insecureSkipTlsVerify: true
+      - webhookRepFullname: simbo1905/demo1
+      - envGitUrl: https://github.com/ocd-scm/ocd-demo-env-build.git  
+    hooks:
+    - events: ["prepare"]
+      command: "echo"
+      args: ["@@@@@@@@ some echo @@@@@@@@@"]
