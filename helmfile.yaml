@@ -1,7 +1,6 @@
 repositories:
   - name: ocd-meta 
     url: https://ocd-scm.github.io/ocd-meta/charts
-
 releases:
   - name: ocd-oc-credentials
     labels:
@@ -23,7 +22,7 @@ releases:
     chart: ./ocd-environment-webhook
     version: ~1.0.0
     values:
-      - project: realworld
+      - project: ocd-builder
       - insecureSkipTlsVerify: true
       - webhookRepFullname: simbo1905/demo1
       - envGitUrl: https://github.com/ocd-scm/ocd-demo-env-build.git  
