@@ -12,7 +12,7 @@
 #  - helm 2.9.0 
 #  - webhook 2.6.9
 
-FROM simonmassey/ocd-tools:v1.0.2
+FROM simonmassey/ocd-tools:v1.0.3
 
 MAINTAINER Simon Massey <simbo1905@60hertz.com>
 
