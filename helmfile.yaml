@@ -22,10 +22,12 @@ releases:
     chart: ./ocd-environment-webhook
     version: ~1.0.0
     values:
-      - project: ocd-builder
+      # annoying typo here:
+      - project: oc-builder
       - insecureSkipTlsVerify: true
       - webhookRepFullname: simbo1905/demo1
       - envGitUrl: https://github.com/ocd-scm/ocd-demo-env-build.git  
+      - tillerNamespace:  "{{ requiredEnv "TILLER_NAMESPACE" }}"
     hooks:
     - events: ["prepare"]
       command: "echo"
