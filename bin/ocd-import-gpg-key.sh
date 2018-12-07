@@ -2,6 +2,8 @@
 
 # this wrapper will detected session timeout and login
 
+export GNUPGHOME=/opt/app-root/work/.gnupg/
+
 oc() { 
     ${OCD_SCRIPTS_PATH}/oc_wrapper.sh "$@" 
 }
