@@ -2,14 +2,12 @@
 
 export GNUPGHOME=/opt/app-root/work/.gnupg/
 
+${OCD_SCRIPTS_PATH}/ocd-import-gpg-key.sh
+
 # this wrapper will detected session timeout and login
 oc() { 
     ${OCD_SCRIPTS_PATH}/oc_wrapper.sh "$@" 
 }
-
-if [ ! -d /opt/app-root/work/.gnupg ]; then
-    ${OCD_SCRIPTS_PATH}/ocd-import-gpg-key.sh
-fi
 
 oc project $PROJECT 
 

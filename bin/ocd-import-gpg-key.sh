@@ -15,6 +15,7 @@ PASSPHRASE=$(oc get secrets openshift-passphrase -o yaml | grep passphrase: | aw
 if [ ! -d /opt/app-root/work/.gnupg ]; then
     mkdir /opt/app-root/work/.gnupg
     chmod og-wrx /opt/app-root/work/.gnupg
-    KEY=$(find . -name ocd-private.key)
-    echo $PASSPHRASE | gpg --pinentry loopback --import --passphrase-fd 0 $KEY
 fi
+
+KEY=$(find ${OCD_CHECKOUT_PATH} -name ocd-private.key)
+echo $PASSPHRASE | gpg --pinentry loopback --import --passphrase-fd 0 $KEY
