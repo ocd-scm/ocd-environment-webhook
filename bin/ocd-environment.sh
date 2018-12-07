@@ -23,7 +23,7 @@ fi
 set -x
 
 # down to work. rather than one monster helmfile we check for many and run each
-find cd /opt/app-root/work/checkout -name helmfile.yaml | while read YAML; do
+find /opt/app-root/work/checkout -name helmfile.yaml | while read YAML; do
   folder=$(realpath $(dirname $YAML))
   pushd $folder
   helmfile --log-level debug apply
