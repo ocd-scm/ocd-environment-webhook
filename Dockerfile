@@ -17,6 +17,7 @@ FROM simonmassey/ocd-tools:v1.0.7
 MAINTAINER Simon Massey <simbo1905@60hertz.com>
 
 ENV OCD_SCRIPTS_PATH=/usr/local/bin
+ENV OCD_CHECKOUT_PATH=/opt/app-root/work/checkout
 
 COPY ./bin/* /usr/local/bin/
 
