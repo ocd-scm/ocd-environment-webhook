@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd /opt/app-root/work
+
 # we are running in a random assigned uid with no matching /etc/password
 # so we sythesis as per https://docs.openshift.com/enterprise/3.1/creating_images/guidelines.html#openshift-enterprise-specific-guidelines
 export USER_ID=$(id -u)
