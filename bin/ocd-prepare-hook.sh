@@ -16,7 +16,7 @@ oc project $PROJECT
 PASSPHRASE=$(oc get secrets openshift-passphrase -o yaml | grep passphrase: | awk '{print $2}' | base64 --decode)
 
 # gpg decrypt all the *secret files
-find . -type f -name '*secret' | while read -r SECRET ; do 
+find ${OCD_CHECKOUT_PATH} -type f -name '*secret' | while read -r SECRET ; do 
     if [ ! -f "${SECRET%.*}" ]; then
         echo $PASSPHRASE | gpg --pinentry loopback --passphrase-fd 0 --output "${SECRET%.*}" --decrypt "${SECRET%.*}.secret"
         if [ ! -f "${SECRET%.*}" ]; then
