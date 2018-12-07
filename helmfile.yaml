@@ -30,4 +30,4 @@ releases:
       - tillerNamespace:  "{{ requiredEnv "TILLER_NAMESPACE" }}"
     hooks:
       - events: ["prepare"]
-      command: "oc expose service/ocd-environment-webhook"
+        command: "oc expose service/ocd-environment-webhook"

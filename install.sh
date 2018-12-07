@@ -9,6 +9,6 @@ OPENSHIFT_SERVER=192.168.99.100:8443
 OPENSHIFT_USER=admin
 OPENSHIFT_PASSWORD=admin
 TILLER_NAMESPACE=ocd
-helmfile apply
+helmfile --log-level debug apply
 set +a
 )
