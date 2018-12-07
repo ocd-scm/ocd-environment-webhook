@@ -11,5 +11,4 @@ OPENSHIFT_PASSWORD=admin
 TILLER_NAMESPACE=ocd
 helmfile apply
 set +a
-oc expose service/ocd-environment-webhook
 )
