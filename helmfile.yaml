@@ -28,7 +28,3 @@ releases:
       - webhookRepFullname: simbo1905/demo1
       - envGitUrl: https://github.com/ocd-scm/ocd-demo-env-build.git  
       - tillerNamespace:  "{{ requiredEnv "TILLER_NAMESPACE" }}"
-    hooks:
-    - events: ["prepare"]
-      command: "echo"
-      args: ["@@@@@@@@ some echo @@@@@@@@@"]

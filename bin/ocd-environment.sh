@@ -1,44 +1,31 @@
 #!/bin/bash
-VERSION=1.0.0
+
+if [ -z "${TILLER_NAMESPACE}" ]; then
+  >&2 echo "ERROR: TILLER_NAMESPACE is not defined. Exiting."
+  exit 1
+fi
+
+# this wrapper will detected session timeout and login
 oc() { 
-    ./oc_wrapper.sh "$@" 
+    ${OCD_SCRIPTS_PATH}/oc_wrapper.sh "$@" 
 }
-find $(dirname $0) -name ocd-environment.yaml | while read YAML; do
+
+# force a login to the the correct project if the session has timed out
+oc project $PROJECT
+
+# this show the curren state but also forces an eror if helm needs init after container restart
+helm repo list
+if [ "$?" != "0" ]; then
+  # restart
+  helm init --client-only  
+fi
+
+set -x
+
+# down to work. rather than one monster helmfile we check for many and run each
+find $(dirname $0) -name helmfile.yaml | while read YAML; do
   folder=$(realpath $(dirname $YAML))
-  echo $folder
-  # ocdEnvVersion: version of ocd-environment-webhook this configuration is compatible with
-  ocdEnvVersion=$(yq .ocdEnvVersion $YAML | sed 's/"//g')
-  echo ocdEnvVersion=${ocdEnvVersion}
-  ./semver_ge.bash $VERSION $ocdEnvVersion
-  if [ "$?" -ne "0" ]; then
-    >&2 echo "$VERSION < $ocdEnvVersion so we are too old for this configuration"
-    exit $?
-  fi
-  # name: the name that helm should use
-  name=$(yq .name $YAML | sed 's/"//g')
-  echo name=${name}
-  # chart: the chart to install with
-  chart=$(yq .chart $YAML | sed 's/"//g')
-  echo chart=${chart}
-  # chartVersion: the version of the chart to use
-  chartVersion=$(yq .chartVersion $YAML | sed 's/"//g')
-  echo chartVersion=${chartVersion}
-  # helmValuesFile: the file to load chart values from
-  helmValuesFile=$(yq .helmValuesFile $YAML | sed 's/"//g')
-  echo helmValuesFile=${helmValuesFile}
-  # 
-  set -x
-  oc project realworld
-  helm init --client-only
-  helm repo list | grep ocd-meta > /dev/null
-  if [ "$?" != "0" ]; then
-    echo adding repo ocd-meta 
-    helm repo add ocd-meta https://ocd-scm.github.io/ocd-meta/charts
-  fi
-  helm upgrade --install \
-     -f ${folder}/${helmValuesFile} \
-     --version ${chartVersion} \
-     --namespace realworld \
-     ${name} \
-     ocd-meta/${chart}
+  pushd $folder
+  helmfile --log-level debug apply
+  popd
 done

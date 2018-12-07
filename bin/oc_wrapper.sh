@@ -18,7 +18,7 @@ if [[ "$?" != "0" ]]; then
 
     if [[ "$?" != "0" ]]; then
         (>&2 echo "ERROR Could not oc login. Exiting")
-        exit 1
+        exit 3
     fi
 
     #try again
