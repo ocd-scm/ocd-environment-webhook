@@ -16,6 +16,8 @@ FROM simonmassey/ocd-tools:v1.0.7
 
 MAINTAINER Simon Massey <simbo1905@60hertz.com>
 
+ENV OCD_SCRIPTS_PATH=/usr/local/bin
+
 COPY ./bin/* /usr/local/bin/
 
 RUN mkdir /opt/app-root/src/.kube && chmod -R a+w /opt/app-root/src/.kube
