@@ -53,13 +53,8 @@ spec:
             value: {{ required "Missing required value envGitUrl" .Values.envGitUrl | quote }}
           - name: "TILLER_NAMESPACE"
             value: {{ required "Missing required value tillerNamespace" .Values.tillerNamespace | quote }}
-          {{- if .Values.webhookRef }}
           - name: "WEBHOOK_REF"
-            value: {{ .Values.webhookRef | quote }}
-          {{- else }}
-          - name: "WEBHOOK_REF"
-            value: "refs/heads/master"
-          {{- end }}
+            value: {{ required "Missing required value webhookRef" .Values.webhookRef | quote }}
           {{- if .Values.webhookSecret }}
           - name: "WEBHOOK_SECRET"
             value: {{ .Values.webhookSecret | quote }}

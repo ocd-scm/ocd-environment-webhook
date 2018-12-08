@@ -18,3 +18,4 @@ secrets:
 # insecureSkipTlsVerify: Whether to set --insecure-skip-tls-verify needed for minishift deployment. 
 # project: @required The project that is the environment to upgrade
 # tillerNamespace: @required The project where tiller the helm server is running
+# webhookRef: The git ref that triggers the webhook

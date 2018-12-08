@@ -24,10 +24,10 @@ releases:
     values:
       - tillerNamespace:  "{{ requiredEnv "TILLER_NAMESPACE" }}"
       - project: "{{ requiredEnv "PROJECT" }}"
-      - insecureSkipTlsVerify: {{ default "false" "${INSECURE_NO_TLS_VERIFY}" }}
+      - insecureSkipTlsVerify: {{ env "INSECURE_NO_TLS_VERIFY" | default "false"  }}
       - envGitUrl: "{{ requiredEnv "GIT_URL" }}"
       - webhookRepFullname: "{{ requiredEnv "GIT_NAME" }}"
-      - webhookRef: "{{ default "refs/heads/master" "WEBHOOK_REF" }}"
+      - webhookRef: "{{ env "WEBHOOK_REF" | default "refs/heads/master" }}"
     #hooks:
     #  - events: ["prepare"]
     #    command: "oc expose service/ocd-environment-webhook"
