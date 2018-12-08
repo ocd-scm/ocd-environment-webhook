@@ -58,7 +58,7 @@ spec:
             value: {{ .Values.webhookRefRegex | quote }}
           {{- else }}
           - name: "WEBHOOK_REF_REGEX"
-            value: "master"
+            value: "refs/heads/master"
           {{- end }}
           {{- if .Values.webhookSecret }}
           - name: "WEBHOOK_SECRET"
