@@ -1,7 +1,7 @@
 [
   {
     "id": "ocd-environment-webhook",
-    "execute-command": "/usr/local/bin/helm-apply-config.sh",
+    "execute-command": "/usr/local/bin/ocd-hook.sh",
     "command-working-directory": "/opt/app-root/work",
     "pass-arguments-to-command":
     [
