@@ -45,6 +45,7 @@ printf 'Value of --%s: %s\n' 'namespace' "$_arg_namespace"
 printf 'Value of --%s: %s\n' 'insecure-no-tls-verify' "$_arg_insecure_no_tls_verify"
 printf 'Value of --%s: %s\n' 'git-url' "$_arg_git_url"
 printf 'Value of --%s: %s\n' 'git-name' "$_arg_git_name"
+printf "Value of '%s': %s\\n" 'webhook-ref' "$_arg_webhook_ref"
 
 set -e
 set -x
@@ -59,6 +60,7 @@ PROJECT="$_arg_namespace"
 INSECURE_NO_TLS_VERIFY="$_arg_insecure_no_tls_verify"
 GIT_URL="$_arg_git_url"
 GIT_NAME="$_arg_git_name"
+WEBHOOK_REF="$_arg_webhook_ref"
 helmfile --log-level debug apply
 set +a
 )

@@ -27,6 +27,7 @@ releases:
       - insecureSkipTlsVerify: {{ default "false" "${INSECURE_NO_TLS_VERIFY}" }}
       - envGitUrl: "{{ requiredEnv "GIT_URL" }}"
       - webhookRepFullname: "{{ requiredEnv "GIT_NAME" }}"
+      - webhookRef: "{{ default "refs/heads/master" "WEBHOOK_REF" }}"
     #hooks:
     #  - events: ["prepare"]
     #    command: "oc expose service/ocd-environment-webhook"
