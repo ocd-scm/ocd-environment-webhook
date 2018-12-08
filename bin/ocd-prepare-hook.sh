@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export GNUPGHOME=/opt/app-root/work/.gnupg/
-
 ${OCD_SCRIPTS_PATH}/ocd-import-gpg-key.sh
 
 # this wrapper will detected session timeout and login
