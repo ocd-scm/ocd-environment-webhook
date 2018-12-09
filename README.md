@@ -40,3 +40,10 @@ An example of installing it into Minishift running the Gitea is:
 ```
 
 See the [wiki](https://github.com/ocd-scm/ocd-meta/wiki/Minishift) for setting up minishift with helm tiller. 
+
+## Helpful Commands
+
+Hard delete all the other charts in a test project when testing: 
+
+`helm list --namespace $TEST_PROJECT | awk 'NR>1{print $1}' | grep -v ocd-environment-webhook |
+ xargs helm delete --purge`
