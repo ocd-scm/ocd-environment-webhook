@@ -26,6 +26,20 @@ set -x
 find ${OCD_CHECKOUT_PATH} -name helmfile.yaml | while read YAML; do
   folder=$(realpath $(dirname $YAML))
   pushd $folder
+
+  # it would be nice if helmfile had this event hook
+  if [ -f ./ocd-pre-apply-hook ]; then
+    echo running $folder/ocd-pre-apply-hook
+    ./ocd-pre-apply-hook
+  fi
+
   helmfile --log-level debug apply
+
+  # it would be niceif helmfile had this event hook
+  if [ -f ./ocd-post-apply-hook ]; then
+    echo running $folder/ocd-post-apply-hook
+    ./ocd-post-apply-hook
+  fi
+
   popd
 done
