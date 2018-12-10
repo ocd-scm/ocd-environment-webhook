@@ -1,9 +1,9 @@
 #!/bin/bash
 
-cd /opt/app-root/work
+cd ${OCD_CHECKOUT_PATH}/..
 
 # we are running in a random assigned uid with no matching /etc/password
-# so we sythesis as per https://docs.openshift.com/enterprise/3.1/creating_images/guidelines.html#openshift-enterprise-specific-guidelines
+# so we sythesis an entry as per https://docs.openshift.com/enterprise/3.1/creating_images/guidelines.html#openshift-enterprise-specific-guidelines
 export USER_ID=$(id -u)
 export GROUP_ID=$(id -g)
 cat /etc/passwd > /tmp/passwd
@@ -13,9 +13,12 @@ export LD_PRELOAD=libnss_wrapper.so
 export NSS_WRAPPER_PASSWD=/tmp/passwd
 export NSS_WRAPPER_GROUP=/etc/group
 
+# Convert  /opt/app-root/work/checkout to checkout
+FOLDER_NAME=$(basename ${OCD_CHECKOUT_PATH})
+
 # checkout or update the code
-if [ ! -d checkout ]; then
-  git clone --depth 1 --single-branch $ENV_GIT_URL checkout
+if [ ! -d $FOLDER_NAME ]; then
+  git clone --depth 1 --single-branch $ENV_GIT_URL $FOLDER_NAME
 else
-  cd checkout; git pull -Xthiers origin master
+  cd $FOLDER_NAME; git pull -Xthiers origin master
 fi
