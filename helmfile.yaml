@@ -28,6 +28,4 @@ releases:
       - envGitUrl: "{{ requiredEnv "GIT_URL" }}"
       - webhookRepFullname: "{{ requiredEnv "GIT_NAME" }}"
       - webhookRef: "{{ env "WEBHOOK_REF" | default "refs/heads/master" }}"
-    #hooks:
-    #  - events: ["prepare"]
-    #    command: "oc expose service/ocd-environment-webhook"
+
