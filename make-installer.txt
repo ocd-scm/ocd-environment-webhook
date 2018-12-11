@@ -1,12 +1,16 @@
 
-./argbash-init-docker --opt oc-server \
-    --opt oc-user \
-    --opt oc-passwd \
-    --opt tiller-namespace \
-    --opt namespace \
+./argbash-init-docker \
     --opt insecure-no-tls-verify \
-    --opt git-url \
-    --opt git-name \
+    --pos oc-server \
+    --pos oc-user \
+    --pos oc-passwd \
+    --pos tiller-namespace \
+    --pos namespace \
+    --pos git-url \
+    --pos git-name \
+    --pos webhook-ref \
     argbash.m4
+
 ./argbash-docker argbash.m4 -o installer.bash && chmod +x installer.bash
+
 ./installer.bash -h
