@@ -24,7 +24,7 @@ Usage: ./installer.bash [-s|--oc-server <arg>] [-u|--oc-user <arg>] [-p|--oc-pas
 	-h, --help: Prints help
 ```
 
-An example of installing it into Minishift running the Gitea is:
+An example of installing it into Minishift using a project `ocd-builder` deploying an environment from `simbo1905/env-build` running on Gitea is:
 
 ```
 ./installer.bash \
