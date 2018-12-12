@@ -61,6 +61,11 @@ INSECURE_NO_TLS_VERIFY="$_arg_insecure_no_tls_verify"
 GIT_URL="$_arg_git_url"
 GIT_NAME="$_arg_git_name"
 WEBHOOK_REF="$_arg_webhook_ref"
+
 helmfile --log-level debug apply
+sleep 1
+# expose the webhook with a route
+oc expose svc ocd-environment-webhook
+
 set +a
 )
