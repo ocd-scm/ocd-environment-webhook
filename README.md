@@ -24,16 +24,16 @@ Usage: ./installer.bash [-s|--oc-server <arg>] [-u|--oc-user <arg>] [-p|--oc-pas
 	-h, --help: Prints help
 ```
 
-An example of installing it into Minishift running the Gitea is:
+An example of installing it into Minishift using a project `ocd-builder` deploying an environment from `simbo1905/env-build` running on Gitea is:
 
 ```
 ./installer.bash \
         --insecure-no-tls-verify true \
-        -s 192.168.99.100:8443 \
-        -u admin \
-        -p admin \
-        -t ocd 
-        -n ocd-builder \
+        192.168.99.100:8443 \
+        admin \
+        admin \
+        ocd \
+        ocd-builder \
         http://7784f8c5766f9fc074a3d77fb426bc3058abd4a5@gitea.ocd-builder.svc:3000/simbo1905/env-build.git \
         simbo1905/env-build \
         refs/heads/master
