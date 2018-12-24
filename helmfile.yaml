@@ -2,7 +2,7 @@ repositories:
   - name: ocd-meta 
     url: https://ocd-scm.github.io/ocd-meta/charts
 releases:
-  - name: ocd-oc-credentials
+  - name: {{ requiredEnv "ENV" }}-ocd-credentials
     labels:
       secret: ocd-oc-credentials
     chart: ocd-meta/ocd-secret
@@ -16,11 +16,11 @@ releases:
           value: "{{ requiredEnv "OPENSHIFT_USER" }}"
         - key: OPENSHIFT_PASSWORD
           value: "{{ requiredEnv "OPENSHIFT_PASSWORD" }}"
-  - name: ocd-environment-webhook
+  - name: {{ requiredEnv "ENV" }}-ocd-webhook
     labels:
       builder: realworld
     chart: ./ocd-environment-webhook
-    version: ~1.0.0
+    version: ~1.1.0
     values:
       - tillerNamespace:  "{{ requiredEnv "TILLER_NAMESPACE" }}"
       - project: "{{ requiredEnv "PROJECT" }}"

@@ -1,0 +1,8 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: ocd-environment
+spec:
+  to:
+    kind: Service
+    name: {{ .Values.name | quote }}

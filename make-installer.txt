@@ -9,6 +9,7 @@
     --pos git-url \
     --pos git-name \
     --pos webhook-ref \
+    --pos env \
     argbash.m4
 
 ./argbash-docker argbash.m4 -o installer.bash && chmod +x installer.bash
