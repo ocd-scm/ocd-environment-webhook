@@ -33,7 +33,7 @@ An example of installing it into Minishift using a project `ocd-builder` deployi
         admin \
         admin \
         ocd \
-        ocd-builder \
+        ocd-demo-env-build \
         http://7784f8c5766f9fc074a3d77fb426bc3058abd4a5@gitea.ocd-builder.svc:3000/simbo1905/env-build.git \
         simbo1905/env-build \
         refs/heads/master
