@@ -36,7 +36,7 @@ An example of installing it into the current project on Minishift deploying an e
   admin \
   admin \
   ocd \
-  test \
+  $(oc project --short) \
   http://ffdbaa5f8689920e9389ad321760a65f0ead6d91@gitea-gitea.192.168.99.100.nip.io/simbo1905/env-build.git \
   simbo1905/env-build \
   refs/heads/master \
