@@ -37,6 +37,8 @@ spec:
         type: Rolling
       containers:
       - env:
+          - name: ENV
+            value: {{ required "Missing required value env" .Values.env | quote }
           {{- if .Values.insecureSkipTlsVerify }}
           - name: "INSECURE_SKIP_TLS_VERIFY"
             value: "--insecure-skip-tls-verify"
