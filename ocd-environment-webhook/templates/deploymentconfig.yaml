@@ -59,10 +59,8 @@ spec:
           - name: "WEBHOOK_SECRET"
             value: {{ .Values.webhookSecret | quote }}
           {{- else }}
-          {{- if .Release.IsInstall }}
           - name: "WEBHOOK_SECRET"
             value: {{ randAlphaNum 10 | quote }}
-          {{- end }}
           {{- end }}
           {{- range .Values.deploy_env }}
           - name: {{ .name }}

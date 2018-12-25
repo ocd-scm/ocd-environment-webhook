@@ -28,4 +28,5 @@ releases:
       - envGitUrl: "{{ requiredEnv "GIT_URL" }}"
       - webhookRepFullname: "{{ requiredEnv "GIT_NAME" }}"
       - webhookRef: "{{ env "WEBHOOK_REF" | default "refs/heads/master" }}"
+      - webhookSecret: "{{ env "WEBHOOK_SECRET" }}"
 

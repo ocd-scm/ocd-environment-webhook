@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Created by argbash-init v2.7.1
-# ARG_OPTIONAL_SINGLE([insecure-no-tls-verify],[],[skip TLS verify needed for minishift],[false])
+# ARG_OPTIONAL_SINGLE([insecure-no-tls-verify],[],[optional skip TLS verify needed for minishift],[false])
+# ARG_OPTIONAL_SINGLE([webhook-secret],[],[optional webhook secret will otherwise be generated],[])
 # ARG_POSITIONAL_SINGLE([oc-server],[mandatory server e.g. 192.168.99.100:8443])
 # ARG_POSITIONAL_SINGLE([oc-user],[mandatory username e.g. admin])
 # ARG_POSITIONAL_SINGLE([oc-passwd],[mandatory password e.g. admin])
@@ -50,12 +51,13 @@ _arg_webhook_ref=
 _arg_env=
 # THE DEFAULTS INITIALIZATION - OPTIONALS
 _arg_insecure_no_tls_verify="false"
+_arg_webhook_secret=
 
 
 print_help()
 {
 	printf '%s\n' "Welcome to the ocd-envrionment-webhook installer. It runs heml to install into the current project. It needs some OC login details as tokens will expire so it will have to periodically login to refresh it's authentication token. It needs to know the namespace where tiller is running which might not be the current project. The login you give it will need permissions to list the pods where tiller is running and to port forward to it. On minishift you can use the admin plugin and just have it use admin/admin. In a secure setup you should run this in a project seperate from both tiller and your main app with a login that can only talk to tiller and nothing else."
-	printf 'Usage: %s [--insecure-no-tls-verify <arg>] [-h|--help] <oc-server> <oc-user> <oc-passwd> <tiller-namespace> <namespace> <git-url> <git-name> <webhook-ref> <env>\n' "$0"
+	printf 'Usage: %s [--insecure-no-tls-verify <arg>] [--webhook-secret <arg>] [-h|--help] <oc-server> <oc-user> <oc-passwd> <tiller-namespace> <namespace> <git-url> <git-name> <webhook-ref> <env>\n' "$0"
 	printf '\t%s\n' "<oc-server>: mandatory server e.g. 192.168.99.100:8443"
 	printf '\t%s\n' "<oc-user>: mandatory username e.g. admin"
 	printf '\t%s\n' "<oc-passwd>: mandatory password e.g. admin"
@@ -65,7 +67,8 @@ print_help()
 	printf '\t%s\n' "<git-name>: mandatory name of the repo that fires the webhook used to sanity check the webhook payload is from the correct repo e.g. ocd-scm/ocd-demo-env-build"
 	printf '\t%s\n' "<webhook-ref>: mandatory the git ref that fires the webhook e.g. refs/heads/master"
 	printf '\t%s\n' "<env>: mandatory the env prefix to make the installed chart unique e.g. live"
-	printf '\t%s\n' "--insecure-no-tls-verify: skip TLS verify needed for minishift (default: 'false')"
+	printf '\t%s\n' "--insecure-no-tls-verify: optional skip TLS verify needed for minishift (default: 'false')"
+	printf '\t%s\n' "--webhook-secret: optional webhook secret will otherwise be generated (no default)"
 	printf '\t%s\n' "-h, --help: Prints help"
 }
 
@@ -84,6 +87,14 @@ parse_commandline()
 				;;
 			--insecure-no-tls-verify=*)
 				_arg_insecure_no_tls_verify="${_key##--insecure-no-tls-verify=}"
+				;;
+			--webhook-secret)
+				test $# -lt 2 && die "Missing value for the optional argument '$_key'." 1
+				_arg_webhook_secret="$2"
+				shift
+				;;
+			--webhook-secret=*)
+				_arg_webhook_secret="${_key##--webhook-secret=}"
 				;;
 			-h|--help)
 				print_help

@@ -62,6 +62,7 @@ GIT_URL="$_arg_git_url"
 GIT_NAME="$_arg_git_name"
 WEBHOOK_REF="$_arg_webhook_ref"
 ENV="$_arg_env"
+WEBHOOK_SECRET="$_arg_webhook_secret"
 
 helmfile --log-level debug apply
 
