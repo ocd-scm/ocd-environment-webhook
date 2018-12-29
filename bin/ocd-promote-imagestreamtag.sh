@@ -29,7 +29,9 @@ if [ -z ${TAG} ]; then
     exit 4
 fi
 
+set +x
+
 if [ -n "${IMAGE}" ] && [ -n "${PROMOTE_PROJECT_FROM}" ] && [ -n "${PROMOTE_PROJECT_TO}" ]; then 
     echo promoting "$IMAGE" using tag "$TAG" from "$PROMOTE_PROJECT_FROM" to "$PROMOTE_PROJECT_TO"
-    oc tag "$PROMOTE_PROJECT_FROM/$IMAGE:$TAG $PROMOTE_PROJECT_TO/$IMAGE:$TAG"
+    oc tag "$PROMOTE_PROJECT_FROM/$IMAGE:$TAG" "$PROMOTE_PROJECT_TO/$IMAGE:$TAG"
 fi
