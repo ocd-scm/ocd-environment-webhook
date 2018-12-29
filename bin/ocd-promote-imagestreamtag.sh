@@ -6,24 +6,30 @@ IMAGE=$3
 TAG=$4
 
 oc() { 
-    bin/oc_wrapper.sh $@ 
+    ${OCD_SCRIPTS_PATH}/oc_wrapper.sh "$@"
 }
 
 if [ -z ${PROMOTE_PROJECT_FROM} ]; then
-    echo "please define PROMOTE_PROJECT_FROM"
+    >2& echo "ERROR - $0 please define PROMOTE_PROJECT_FROM."
+    exit 1
 fi
 
 if [ -z ${PROMOTE_PROJECT_TO} ]; then
-    echo "please define PROMOTE_PROJECT_TO"
+    >2& echo "ERROR - $0 please define PROMOTE_PROJECT_TO."
+    exit 2
 fi
-
-IMAGE=$1
 
 if [ -z ${IMAGE} ]; then
-    echo "please specify an image."
+    >2& echo "ERROR - $0 please IMAGE."
+    exit 3
 fi
 
-if [ -n ${IMAGE} ] && [ -n ${PROMOTE_PROJECT_FROM} ] && [ -n ${PROMOTE_PROJECT_TO} ]; then 
-    echo promoting $IMAGE using tag $TAG from $PROMOTE_PROJECT_FROM to $PROMOTE_PROJECT_TO
-    oc tag $PROMOTE_PROJECT_FROM/$IMAGE:$TAG $PROMOTE_PROJECT_TO/$IMAGE:$TAG
+if [ -z ${TAG} ]; then
+    >2& echo "ERROR - $0 please specify an TAG."
+    exit 4
+fi
+
+if [ -n "${IMAGE}" ] && [ -n "${PROMOTE_PROJECT_FROM}" ] && [ -n "${PROMOTE_PROJECT_TO}" ]; then 
+    echo promoting "$IMAGE" using tag "$TAG" from "$PROMOTE_PROJECT_FROM" to "$PROMOTE_PROJECT_TO"
+    oc tag "$PROMOTE_PROJECT_FROM/$IMAGE:$TAG $PROMOTE_PROJECT_TO/$IMAGE:$TAG"
 fi
