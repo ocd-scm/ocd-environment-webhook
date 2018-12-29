@@ -7,7 +7,7 @@ oc() {
 
 # later logic assumes one private key and many sounds wrong
 if [ "$(ls gpg/*.prv.key | wc -l)" -ne "1" ]; then
-    >2& echo "ERROR Did not find exactly one file at gpg/*.prv.key"
+    >&2 echo "ERROR Did not find exactly one file at gpg/*.prv.key"
     exit 1
 fi
 

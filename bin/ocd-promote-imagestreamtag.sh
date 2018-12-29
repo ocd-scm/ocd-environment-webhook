@@ -10,22 +10,22 @@ oc() {
 }
 
 if [ -z ${PROMOTE_PROJECT_FROM} ]; then
-    >2& echo "ERROR - $0 please define PROMOTE_PROJECT_FROM."
+    >&2 echo "ERROR - $0 please define PROMOTE_PROJECT_FROM."
     exit 1
 fi
 
 if [ -z ${PROMOTE_PROJECT_TO} ]; then
-    >2& echo "ERROR - $0 please define PROMOTE_PROJECT_TO."
+    >&2 echo "ERROR - $0 please define PROMOTE_PROJECT_TO."
     exit 2
 fi
 
 if [ -z ${IMAGE} ]; then
-    >2& echo "ERROR - $0 please IMAGE."
+    >&2 echo "ERROR - $0 please IMAGE."
     exit 3
 fi
 
 if [ -z ${TAG} ]; then
-    >2& echo "ERROR - $0 please specify an TAG."
+    >&2 echo "ERROR - $0 please specify an TAG."
     exit 4
 fi
 
