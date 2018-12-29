@@ -30,14 +30,14 @@ Usage: ./installer.bash [--insecure-no-tls-verify <arg>] [-h|--help] <oc-server>
 An example of installing it into the current project on Minishift deploying an environment from `simbo1905/env-build` running on Gitea is:
 
 ```
-./installer.bash \
-  --insecure-no-tls-verify true \
+./installer.bash   \
+  --insecure-no-tls-verify true   \
   192.168.99.100:8443 \
   admin \
   admin \
-  ocd \
+  tiller-namespace \
   $(oc project --short) \
-  http://ffdbaa5f8689920e9389ad321760a65f0ead6d91@gitea-gitea.192.168.99.100.nip.io/simbo1905/env-build.git \
+  http://c9b58970a1ea91c9b93f78b400a52b3db7db33b0@gitea-gitea.192.168.99.101.nip.io/simbo1905/env-build.git \
   simbo1905/env-build \
   refs/heads/master \
   build
