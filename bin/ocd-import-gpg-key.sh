@@ -11,9 +11,11 @@ if [ "$(find ${OCD_CHECKOUT_PATH} -type f -name \*.prv.key | wc -l)" -ne "1" ]; 
     exit 1
 fi
 
+GPG_PRIVATE_KEY=$(find ${OCD_CHECKOUT_PATH} -type f -name \*.prv.key)
+
 # see https://github.com/ocd-scm/ocd-meta/wiki/Encrypting-Secrets#using-a-gnupg-private-key
 # parse the fingerprint out of the private key name
-FINGERPRINT=$(find ${OCD_CHECKOUT_PATH} -type f -name \*.prv.key | sed 's/gpg\/\(.*\)\.prv\.key/\1/g')
+FINGERPRINT=$(echo $GPG_PRIVATE_KEY | awk -F '/' '{print $NF}' | sed 's/\.prv\.key//1')
 
 # check the key has alredy been imported
 gpg --list-secret-keys | grep $FINGERPRINT
@@ -23,11 +25,11 @@ if [ "$?" -ne "0" ]; then
     oc project $PROJECT 
     # see https://github.com/ocd-scm/ocd-meta/wiki/Encrypting-Secrets#using-a-gnupg-private-key
     PASSPHRASE=$(oc get secrets openshift-passphrase -o yaml | grep passphrase: | awk '{print $2}' | base64 --decode)
-    echo $PASSPHRASE | gpg --pinentry loopback --import --passphrase-fd 0 $(find ${OCD_CHECKOUT_PATH} -type f -name \*.prv.key)
+    echo $PASSPHRASE | gpg --pinentry loopback --import --passphrase-fd 0 $GPG_PRIVATE_KEY
     # check the key is there
     gpg --list-secret-keys | grep $FINGERPRINT
     if [ "$?" -ne "0" ]; then
-        >&2 echo "ERROR: Could not import key from $(find ${OCD_CHECKOUT_PATH} -type f -name \*.prv.key)"
+        >&2 echo "ERROR: Could not import key from $GPG_PRIVATE_KEY"
         exit 2
     fi
 fi
