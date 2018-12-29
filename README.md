@@ -32,7 +32,7 @@ An example of installing it into the current project on Minishift deploying an e
 ```
 ./installer.bash   \
   --insecure-no-tls-verify true   \
-  192.168.99.100:8443 \
+  192.168.99.101:8443 \
   admin \
   admin \
   tiller-namespace \
