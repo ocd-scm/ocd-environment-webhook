@@ -24,7 +24,8 @@ COPY ./bin/* /usr/local/bin/
 
 RUN mkdir /opt/app-root/src/.kube && chmod -R a+w /opt/app-root/src/.kube
 
-COPY hooks.json /opt/app-root/src
+COPY hooks-push.json /opt/app-root/src
+COPY hooks-release.json /opt/app-root/src
 
 RUN mkdir -p /opt/app-root/work && chmod -R a+w /opt/app-root/work
 
@@ -34,4 +35,4 @@ USER 1001
 
 EXPOSE 9000
 
-CMD  ["/usr/local/bin/webhook", "-verbose", "-hotreload", "-template"]
+CMD  ["/usr/local/bin/ocd-webhook.sh"]
