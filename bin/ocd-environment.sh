@@ -35,7 +35,7 @@ find ${OCD_CHECKOUT_PATH} -name helmfile.yaml | while read YAML; do
 
   helmfile --log-level debug apply
 
-  # it would be niceif helmfile had this event hook
+  # it would be nice if helmfile had this event hook
   if [ -f ./ocd-post-apply-hook ]; then
     echo running $folder/ocd-post-apply-hook
     ./ocd-post-apply-hook
