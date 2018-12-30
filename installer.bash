@@ -3,6 +3,7 @@
 # Created by argbash-init v2.7.1
 # ARG_OPTIONAL_SINGLE([insecure-no-tls-verify],[],[optional skip TLS verify needed for minishift],[false])
 # ARG_OPTIONAL_SINGLE([webhook-secret],[],[optional webhook secret will otherwise be generated],[])
+# ARG_OPTIONAL_SINGLE([release-hook],[],[optional match a release event rather than a push event],[false])
 # ARG_POSITIONAL_SINGLE([oc-server],[mandatory server e.g. 192.168.99.100:8443])
 # ARG_POSITIONAL_SINGLE([oc-user],[mandatory username e.g. admin])
 # ARG_POSITIONAL_SINGLE([oc-passwd],[mandatory password e.g. admin])
@@ -10,7 +11,7 @@
 # ARG_POSITIONAL_SINGLE([namespace],[mandatory namespace to install into])
 # ARG_POSITIONAL_SINGLE([git-url],[mandatory url of the enviroment code to checkout e.g. https://github.com/ocd-scm/ocd-demo-env-build.git ])
 # ARG_POSITIONAL_SINGLE([git-name],[mandatory name of the repo that fires the webhook used to sanity check the webhook payload is from the correct repo e.g. ocd-scm/ocd-demo-env-build])
-# ARG_POSITIONAL_SINGLE([webhook-ref],[mandatory the git ref that fires the webhook e.g. refs/heads/master])
+# ARG_POSITIONAL_SINGLE([webhook-ref-regex],[mandatory the regex to match the git ref e.g. "refs/heads/master" to match a branch or ".*-RELEASE" to match a release tag])
 # ARG_POSITIONAL_SINGLE([env],[mandatory the env prefix to make the installed chart unique e.g. live])
 # ARG_DEFAULTS_POS()
 # ARG_HELP([Welcome to the ocd-envrionment-webhook installer. It runs heml to install into the current project. It needs some OC login details as tokens will expire so it will have to periodically login to refresh it's authentication token. It needs to know the namespace where tiller is running which might not be the current project. The login you give it will need permissions to list the pods where tiller is running and to port forward to it. On minishift you can use the admin plugin and just have it use admin/admin. In a secure setup you should run this in a project seperate from both tiller and your main app with a login that can only talk to tiller and nothing else.])
@@ -47,17 +48,18 @@ _arg_tiller_namespace=
 _arg_namespace=
 _arg_git_url=
 _arg_git_name=
-_arg_webhook_ref=
+_arg_webhook_ref_regex=
 _arg_env=
 # THE DEFAULTS INITIALIZATION - OPTIONALS
 _arg_insecure_no_tls_verify="false"
 _arg_webhook_secret=
+_arg_release_hook="false"
 
 
 print_help()
 {
 	printf '%s\n' "Welcome to the ocd-envrionment-webhook installer. It runs heml to install into the current project. It needs some OC login details as tokens will expire so it will have to periodically login to refresh it's authentication token. It needs to know the namespace where tiller is running which might not be the current project. The login you give it will need permissions to list the pods where tiller is running and to port forward to it. On minishift you can use the admin plugin and just have it use admin/admin. In a secure setup you should run this in a project seperate from both tiller and your main app with a login that can only talk to tiller and nothing else."
-	printf 'Usage: %s [--insecure-no-tls-verify <arg>] [--webhook-secret <arg>] [-h|--help] <oc-server> <oc-user> <oc-passwd> <tiller-namespace> <namespace> <git-url> <git-name> <webhook-ref> <env>\n' "$0"
+	printf 'Usage: %s [--insecure-no-tls-verify <arg>] [--webhook-secret <arg>] [--release-hook <arg>] [-h|--help] <oc-server> <oc-user> <oc-passwd> <tiller-namespace> <namespace> <git-url> <git-name> <webhook-ref-regex> <env>\n' "$0"
 	printf '\t%s\n' "<oc-server>: mandatory server e.g. 192.168.99.100:8443"
 	printf '\t%s\n' "<oc-user>: mandatory username e.g. admin"
 	printf '\t%s\n' "<oc-passwd>: mandatory password e.g. admin"
@@ -65,10 +67,11 @@ print_help()
 	printf '\t%s\n' "<namespace>: mandatory namespace to install into"
 	printf '\t%s\n' "<git-url>: mandatory url of the enviroment code to checkout e.g. https://github.com/ocd-scm/ocd-demo-env-build.git "
 	printf '\t%s\n' "<git-name>: mandatory name of the repo that fires the webhook used to sanity check the webhook payload is from the correct repo e.g. ocd-scm/ocd-demo-env-build"
-	printf '\t%s\n' "<webhook-ref>: mandatory the git ref that fires the webhook e.g. refs/heads/master"
+	printf '\t%s\n' "<webhook-ref-regex>: mandatory the regex to match the git ref e.g. "refs/heads/master" to match a branch or ".*-RELEASE" to match a release tag"
 	printf '\t%s\n' "<env>: mandatory the env prefix to make the installed chart unique e.g. live"
 	printf '\t%s\n' "--insecure-no-tls-verify: optional skip TLS verify needed for minishift (default: 'false')"
 	printf '\t%s\n' "--webhook-secret: optional webhook secret will otherwise be generated (no default)"
+	printf '\t%s\n' "--release-hook: optional match a release event rather than a push event (default: 'false')"
 	printf '\t%s\n' "-h, --help: Prints help"
 }
 
@@ -96,6 +99,14 @@ parse_commandline()
 			--webhook-secret=*)
 				_arg_webhook_secret="${_key##--webhook-secret=}"
 				;;
+			--release-hook)
+				test $# -lt 2 && die "Missing value for the optional argument '$_key'." 1
+				_arg_release_hook="$2"
+				shift
+				;;
+			--release-hook=*)
+				_arg_release_hook="${_key##--release-hook=}"
+				;;
 			-h|--help)
 				print_help
 				exit 0
@@ -117,7 +128,7 @@ parse_commandline()
 
 handle_passed_args_count()
 {
-	local _required_args_string="'oc-server', 'oc-user', 'oc-passwd', 'tiller-namespace', 'namespace', 'git-url', 'git-name', 'webhook-ref' and 'env'"
+	local _required_args_string="'oc-server', 'oc-user', 'oc-passwd', 'tiller-namespace', 'namespace', 'git-url', 'git-name', 'webhook-ref-regex' and 'env'"
 	test "${_positionals_count}" -ge 9 || _PRINT_HELP=yes die "FATAL ERROR: Not enough positional arguments - we require exactly 9 (namely: $_required_args_string), but got only ${_positionals_count}." 1
 	test "${_positionals_count}" -le 9 || _PRINT_HELP=yes die "FATAL ERROR: There were spurious positional arguments --- we expect exactly 9 (namely: $_required_args_string), but got ${_positionals_count} (the last one was: '${_last_positional}')." 1
 }
@@ -126,7 +137,7 @@ handle_passed_args_count()
 assign_positional_args()
 {
 	local _positional_name _shift_for=$1
-	_positional_names="_arg_oc_server _arg_oc_user _arg_oc_passwd _arg_tiller_namespace _arg_namespace _arg_git_url _arg_git_name _arg_webhook_ref _arg_env "
+	_positional_names="_arg_oc_server _arg_oc_user _arg_oc_passwd _arg_tiller_namespace _arg_namespace _arg_git_url _arg_git_name _arg_webhook_ref_regex _arg_env "
 
 	shift "$_shift_for"
 	for _positional_name in ${_positional_names}

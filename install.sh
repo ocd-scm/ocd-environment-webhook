@@ -60,9 +60,10 @@ PROJECT="$_arg_namespace"
 INSECURE_NO_TLS_VERIFY="$_arg_insecure_no_tls_verify"
 GIT_URL="$_arg_git_url"
 GIT_NAME="$_arg_git_name"
-WEBHOOK_REF="$_arg_webhook_ref"
+WEBHOOK_REF_REGEX="$_arg_webhook_ref_regex"
 ENV_PREFIX="$_arg_env"
 WEBHOOK_SECRET="$_arg_webhook_secret"
+HOOKS_RELEASE="$_arg_release_hook"
 
 helmfile --log-level debug apply
 

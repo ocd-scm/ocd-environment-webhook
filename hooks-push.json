@@ -7,10 +7,6 @@
     [
       {
         "source": "payload",
-        "name": "repository.full_name"
-      },
-      {
-        "source": "payload",
         "name": "ref"
       }
     ],
@@ -46,7 +42,7 @@
           "match":
           {
             "type": "value",
-            "value": "{{ getenv "WEBHOOK_REF" | js }}",
+            "value": "{{ getenv "WEBHOOK_REF_REGEX" | js }}",
             "parameter":
             {
               "source": "payload",

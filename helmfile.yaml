@@ -25,9 +25,10 @@ releases:
       - tillerNamespace:  "{{ requiredEnv "TILLER_NAMESPACE" }}"
       - project: "{{ requiredEnv "PROJECT" }}"
       - insecureSkipTlsVerify: {{ env "INSECURE_NO_TLS_VERIFY" | default "false"  }}
+      - hooksRelease: {{ env "HOOKS_RELEASE" | default "false"  }}
       - envGitUrl: "{{ requiredEnv "GIT_URL" }}"
       - webhookRepFullname: "{{ requiredEnv "GIT_NAME" }}"
-      - webhookRef: "{{ env "WEBHOOK_REF" | default "refs/heads/master" }}"
+      - webhookRefRegex: "{{ env "WEBHOOK_REF_REGEX" }}"
       - webhookSecret: "{{ env "WEBHOOK_SECRET" }}"
       - env: "{{ env "ENV_PREFIX" }}"
 

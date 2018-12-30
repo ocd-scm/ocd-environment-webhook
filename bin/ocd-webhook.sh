@@ -3,7 +3,7 @@
 HOOKS_FILE=/opt/app-root/src/hooks-push.json
 
 if [[ "${HOOKS_RELEASE}" == "true" ]]; then
-    HOOKS_FILE=/opt/app-root/src/hooks-push.json
+    HOOKS_FILE=/opt/app-root/src/hooks-release.json
 fi
 
 echo "Using $HOOKS_FILE"

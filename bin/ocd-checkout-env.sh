@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set +x
+
+REPO_REF=$1
+
 cd ${OCD_CHECKOUT_PATH}/..
 
 # we are running in a random assigned uid with no matching /etc/password
@@ -16,9 +20,18 @@ export NSS_WRAPPER_GROUP=/etc/group
 # Convert  /opt/app-root/work/checkout to checkout
 FOLDER_NAME=$(basename ${OCD_CHECKOUT_PATH})
 
-# checkout or update the code
+# checkout the code
 if [ ! -d $FOLDER_NAME ]; then
   git clone --depth 1 --single-branch $ENV_GIT_URL $FOLDER_NAME
-else
-  cd $FOLDER_NAME; git pull -Xthiers origin master
+fi
+
+cd $FOLDER_NAME; 
+
+if [[ "${HOOKS_RELEASE}" == "true" ]]; then
+  git fetch origin $REPO_REF
+  git fetch --all
+  git checkout tags/$REPO_REF
+else 
+  git checkout $REPO_REF
+  git pull -X theirs
 fi

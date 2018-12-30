@@ -43,6 +43,10 @@ spec:
           - name: "INSECURE_SKIP_TLS_VERIFY"
             value: "--insecure-skip-tls-verify"
           {{- end }}
+          {{- if .Values.hooksRelease }}
+          - name: "HOOKS_RELEASE"
+            value: "true"
+          {{- end }}
           {{- if .Values.helmVersion }}
           - name: "HELM_VERSION"
             value: {{ .Values.helmVersion | quote }}
@@ -55,8 +59,8 @@ spec:
             value: {{ required "Missing required value envGitUrl" .Values.envGitUrl | quote }}
           - name: "TILLER_NAMESPACE"
             value: {{ required "Missing required value tillerNamespace" .Values.tillerNamespace | quote }}
-          - name: "WEBHOOK_REF"
-            value: {{ required "Missing required value webhookRef" .Values.webhookRef | quote }}
+          - name: "WEBHOOK_REF_REGEX"
+            value: {{ required "Missing required value webhookRefRegex" .Values.webhookRefRegex | quote }}
           {{- if .Values.webhookSecret }}
           - name: "WEBHOOK_SECRET"
             value: {{ .Values.webhookSecret | quote }}

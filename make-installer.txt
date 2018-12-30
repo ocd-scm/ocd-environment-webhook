@@ -2,6 +2,7 @@
 ./argbash-init-docker \
     --opt insecure-no-tls-verify \
     --opt webhook-secret \
+    --opt release-hook \
     --pos oc-server \
     --pos oc-user \
     --pos oc-passwd \
@@ -9,7 +10,7 @@
     --pos namespace \
     --pos git-url \
     --pos git-name \
-    --pos webhook-ref \
+    --pos webhook-ref-regex \
     --pos env \
     argbash.m4
 

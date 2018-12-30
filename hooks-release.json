@@ -7,10 +7,6 @@
     [
       {
         "source": "payload",
-        "name": "repository.full_name"
-      },
-      {
-        "source": "payload",
         "name": "release.tag_name"
       }
     ],
