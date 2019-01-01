@@ -31,7 +31,7 @@ fi
 
 OCD_REPO_FULLNAME_GUESS=$(echo $OCD_GIT_URL | awk -F '/' '{print $(NF-1) "/" $NF}' | sed 's/\.git$//1')
 
-read -p "Repo name? (default: $OCD_PROJECT): " OCD_REPO_FULLNAME
+read -p "Repo name? (default: $OCD_REPO_FULLNAME_GUESS): " OCD_REPO_FULLNAME
 [ -z "${OCD_REPO_FULLNAME}" ] && OCD_REPO_FULLNAME=$OCD_REPO_FULLNAME_GUESS
 echo ""
 
@@ -43,7 +43,7 @@ read -p "Chart instance prefix? (default: $OCD_PROJECT): " OCD_PREFIX
 
 set +x
 
-installer.bash \
+./installer.bash \
   $OCD_SERVER   \
   $OCD_USER   \
   $OCD_PASSWORD  \
