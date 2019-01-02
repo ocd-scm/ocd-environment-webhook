@@ -15,16 +15,34 @@
       "and":
       [
         {
-          "match":
-          {
-            "type": "value",
-            "value": "{{ getenv "WEBHOOK_SECRET" | js }}",
-            "parameter":
+          "or": 
+          [
             {
-              "source": "payload",
-              "name": "secret"
+              "match":
+              {
+                "type": "value",
+                "value": "{{ getenv "WEBHOOK_SECRET" | js }}",
+                "parameter":
+                {
+                  "source": "payload",
+                  "name": "secret"
+                }
+              }
             }
-          }
+            ,
+            {
+              "match":
+              {
+                "type": "payload-hash-sha1",
+                "value": "{{ getenv "WEBHOOK_SECRET" | js }}",
+                "parameter":
+                {
+                  "source": "header",
+                  "name": "X-Hub-Signature"
+                }
+              }
+            }
+          ]
         },
         {
           "match":
