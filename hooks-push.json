@@ -34,7 +34,7 @@
               "match":
               {
                 "type": "payload-hash-sha1",
-                "value": "{{ getenv "WEBHOOK_SECRET" | js }}",
+                "secret": "{{ getenv "WEBHOOK_SECRET" | js }}",
                 "parameter":
                 {
                   "source": "header",
