@@ -33,7 +33,6 @@ OCD_REPO_FULLNAME_GUESS=$(echo $OCD_GIT_URL | awk -F '/' '{print $(NF-1) "/" $NF
 
 read -p "Repo name? (default: $OCD_REPO_FULLNAME_GUESS): " OCD_REPO_FULLNAME
 [ -z "${OCD_REPO_FULLNAME}" ] && OCD_REPO_FULLNAME=$OCD_REPO_FULLNAME_GUESS
-echo ""
 
 read -p "Branch ref? (default: refs/heads/master): " OCD_BRANCH
 [ -z "${OCD_BRANCH}" ] && OCD_BRANCH="refs/heads/master"
