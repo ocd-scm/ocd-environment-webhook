@@ -36,7 +36,8 @@ find ${OCD_CHECKOUT_PATH} -name helmfile.yaml | while read YAML; do
   # here we use a subshell to jail the env vars loaded fro the file in the current folder
   (
 
-    if [ -f envvars ]; then
+    if [ -f ./envvars ]; then
+      echo loading $folder/envvars
       set -a 
       # shellcheck disable=SC1091
       source ./envvars
