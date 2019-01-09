@@ -39,7 +39,7 @@ find ${OCD_CHECKOUT_PATH} -name helmfile.yaml | while read YAML; do
     if [ -f envvars ]; then
       set -a 
       # shellcheck disable=SC1091
-      source envvars
+      source ./envvars
       set +a
     fi
      
