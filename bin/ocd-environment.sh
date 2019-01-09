@@ -33,7 +33,18 @@ find ${OCD_CHECKOUT_PATH} -name helmfile.yaml | while read YAML; do
     ./ocd-pre-apply-hook
   fi
 
-  helmfile --log-level debug apply
+  # here we use a subshell to jail the env vars loaded fro the file in the current folder
+  (
+
+    if [ -f envvars ]; then
+      set -a 
+      # shellcheck disable=SC1091
+      source envvars
+      set +a
+    fi
+     
+    helmfile --log-level debug apply 
+  )
 
   # it would be nice if helmfile had this event hook
   if [ -f ./ocd-post-apply-hook ]; then
