@@ -65,6 +65,8 @@ ENV_PREFIX="$_arg_env"
 WEBHOOK_SECRET="$_arg_webhook_secret"
 HOOKS_RELEASE="$_arg_release_hook"
 
+echo WARNING is will fail unless you have run: oc policy add-role-to-user edit "system:serviceaccount:${TILLER_NAMESPACE}:tiller"
+
 helmfile --log-level debug apply
 
 set +a
