@@ -16,13 +16,21 @@ oc project $PROJECT
 # this show the curren state but also forces an eror if helm needs init after container restart
 helm repo list
 if [ "$?" != "0" ]; then
-  # restart
+  # reinit
   helm init --client-only  
 fi
 
 set -x
 
-# down to work. rather than one monster helmfile we check for many and run each
+if [ -f "${OCD_CHECKOUT_PATH}/envvars" ]; then
+  echo "loading ${OCD_CHECKOUT_PATH}/envvars"
+  set -a 
+  # shellcheck disable=SC1091
+  source "${OCD_CHECKOUT_PATH}/envvars"
+  set +a
+fi
+
+# down to work. rather than one monster helmfile can have on per microservice in own folder with own env vars
 find ${OCD_CHECKOUT_PATH} -name helmfile.yaml | while read YAML; do
   folder=$(realpath $(dirname $YAML))
   pushd $folder
@@ -33,11 +41,11 @@ find ${OCD_CHECKOUT_PATH} -name helmfile.yaml | while read YAML; do
     ./ocd-pre-apply-hook
   fi
 
-  # here we use a subshell to jail the env vars loaded fro the file in the current folder
+  # here we use a subshell to jail the env vars loaded from the file in the current folder
   (
 
     if [ -f ./envvars ]; then
-      echo loading $folder/envvars
+      echo "loading $folder/envvars"
       set -a 
       # shellcheck disable=SC1091
       source ./envvars
