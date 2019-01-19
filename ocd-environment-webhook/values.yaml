@@ -10,9 +10,9 @@ replicas: 1
 port: 9000
 insecureSkipTlsVerify: false
 # secrets to mount as env vars
-secrets:
-  - name: ocd-oc-credentials
-    prefix: false
+# secrets:
+#   - name: ocd-oc-credentials
+#     prefix: false
 # webhookRepFullname: @required Sets WEBHOOK_REPO_FULLNAME which is matched on the webhook rule e.g. simbo1905/demo1
 # envGitUrl: @required Sets ENV_GIT_URL the git repo where the environment state is stored.
 # insecureSkipTlsVerify: Whether to set --insecure-skip-tls-verify needed for minishift deployment. 

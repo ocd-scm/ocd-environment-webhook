@@ -2,19 +2,9 @@ repositories:
   - name: ocd-meta 
     url: https://ocd-scm.github.io/ocd-meta/charts
 releases:
-  - name: {{ requiredEnv "ENV_PREFIX" }}-ocd-credentials
-    labels:
-      secret: ocd-oc-credentials
-    chart: ocd-meta/ocd-secret
-    version: ~1.0.0
-    values:
-      - name: ocd-oc-credentials
-      - env_vars: 
-        - key: OPENSHIFT_SERVER
-          value: "{{ requiredEnv "OPENSHIFT_SERVER" }}"
   - name: {{ requiredEnv "ENV_PREFIX" }}-ocd-webhook
     labels:
-      builder: realworld
+      webhook: realworld
     chart: ./ocd-environment-webhook
     version: ~1.1.0
     values:
@@ -26,5 +16,8 @@ releases:
       - webhookRepFullname: "{{ requiredEnv "GIT_NAME" }}"
       - webhookRefRegex: "{{ env "WEBHOOK_REF_REGEX" }}"
       - webhookSecret: "{{ env "WEBHOOK_SECRET" }}"
-      - env: "{{ env "ENV_PREFIX" }}"
+      - env: "{{ requiredEnv "ENV_PREFIX" }}"
+      - deploy_env: 
+        - name: OPENSHIFT_SERVER
+          value: "{{ requiredEnv "OPENSHIFT_SERVER" }}"
 
