@@ -9,7 +9,7 @@ metadata:
     description: Webook to trigger environment update
     template.alpha.openshift.io/wait-for-ready: 'true'
 spec:
-  serviceAccountName: {{ print "sa-" .Values.name  | quote }}
+  serviceAccountName: {{ print "sa-ocd-" .Values.envPrefix  | quote }}
   strategy:
     type: Rolling
   triggers:

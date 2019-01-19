@@ -19,3 +19,4 @@ secrets:
 # project: @required The project that is the environment to upgrade
 # tillerNamespace: @required The project where tiller the helm server is running
 # webhookRef: The git ref that triggers the webhook
+# envPrefix: A prefix that is unique to the current enviroment
