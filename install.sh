@@ -50,10 +50,16 @@ WEBHOOK_REF_REGEX="$_arg_webhook_ref_regex"
 ENV_PREFIX="$_arg_env"
 WEBHOOK_SECRET="$_arg_webhook_secret"
 HOOKS_RELEASE="$_arg_release_hook"
+set +a
 
 echo WARNING is will fail unless you have run: oc policy add-role-to-user edit "system:serviceaccount:${TILLER_NAMESPACE}:tiller"
 
 helmfile --log-level debug apply
 
-set +a
+MOUNTABLE_SECRETS='Mountable secrets:'
+SECRET_NAME=$(oc describe sa sa-ocd-environment-webhook | sed $(printf 's/./&,/%s' ${#MOUNTABLE_SECRETS}) | awk  'BEGIN{FS=OFS=","} {if ($1 ~ /^[ \t]*$/) $1=ch; else ch=$1} 1'  | grep "$MOUNTABLE_SECRETS" | sed 's/[, ]*//g' | awk -F':' '{print $2}' | grep -v docker | grep token)
+echo "mounting service account secret named '$SECRET_NAME' into dc/ocd-environment-webhook"
+oc set volume dc/ocd-environment-webhook --add --name=sa-secret-volume --mount-path=/sa-secret-volume --secret-name=$SECRET_NAME
+
+
 )
