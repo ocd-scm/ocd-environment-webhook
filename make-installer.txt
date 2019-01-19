@@ -4,8 +4,6 @@
     --opt webhook-secret \
     --opt release-hook \
     --pos oc-server \
-    --pos oc-user \
-    --pos oc-passwd \
     --pos tiller-namespace \
     --pos namespace \
     --pos git-url \

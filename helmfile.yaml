@@ -12,10 +12,6 @@ releases:
       - env_vars: 
         - key: OPENSHIFT_SERVER
           value: "{{ requiredEnv "OPENSHIFT_SERVER" }}"
-        - key: OPENSHIFT_USER
-          value: "{{ requiredEnv "OPENSHIFT_USER" }}"
-        - key: OPENSHIFT_PASSWORD
-          value: "{{ requiredEnv "OPENSHIFT_PASSWORD" }}"
   - name: {{ requiredEnv "ENV_PREFIX" }}-ocd-webhook
     labels:
       builder: realworld

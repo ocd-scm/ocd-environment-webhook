@@ -7,29 +7,19 @@ if [ -z "$_arg_oc_server" ]; then
     exit 1
 fi
 
-if [ -z "$_arg_oc_user" ]; then
-    >&2 echo "Please define 'oc-user'"
-    exit 2
-fi
-
-if [ -z "$_arg_oc_passwd" ]; then
-    >&2 echo "Please define 'oc-passwd'"
-    exit 3
-fi
-
 if [ -z "$_arg_tiller_namespace" ]; then
     >&2 echo "Please define 'tiller-namespace'"
-    exit 4
+    exit 2
 fi
 
 if [ -z "$_arg_namespace" ]; then
     >&2 echo "Please define 'namespace'"
-    exit 5
+    exit 3
 fi
 
 if [ -z "$_arg_git_url" ]; then
     >&2 echo "Please define 'git-url'"
-    exit 5
+    exit 4
 fi
 
 if [ -z "$_arg_git_name" ]; then
@@ -38,8 +28,6 @@ if [ -z "$_arg_git_name" ]; then
 fi
 
 printf 'Value of --%s: %s\n' 'oc-server' "$_arg_oc_server"
-printf 'Value of --%s: %s\n' 'oc-user' "$_arg_oc_user"
-printf 'Value of --%s: %s\n' 'oc-passwd' "$_arg_oc_passwd"
 printf 'Value of --%s: %s\n' 'tiller-namespace' "$_arg_tiller_namespace"
 printf 'Value of --%s: %s\n' 'namespace' "$_arg_namespace"
 printf 'Value of --%s: %s\n' 'insecure-no-tls-verify' "$_arg_insecure_no_tls_verify"
@@ -53,8 +41,6 @@ set -x
 (
 set -a
 OPENSHIFT_SERVER="$_arg_oc_server"
-OPENSHIFT_USER="$_arg_oc_user"
-OPENSHIFT_PASSWORD="$_arg_oc_passwd"
 TILLER_NAMESPACE="$_arg_tiller_namespace"
 PROJECT="$_arg_namespace"
 INSECURE_NO_TLS_VERIFY="$_arg_insecure_no_tls_verify"

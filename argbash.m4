@@ -7,8 +7,6 @@ exit 11  #)Created by argbash-init v2.7.1
 # ARG_OPTIONAL_SINGLE([webhook-secret], [], [optional webhook secret will otherwise be generated], [])
 # ARG_OPTIONAL_SINGLE([release-hook], [], [optional match a release event rather than a push event], [false])
 # ARG_POSITIONAL_SINGLE([oc-server], [mandatory server e.g. 192.168.99.100:8443])
-# ARG_POSITIONAL_SINGLE([oc-user], [mandatory username e.g. admin])
-# ARG_POSITIONAL_SINGLE([oc-passwd], [mandatory password e.g. admin])
 # ARG_POSITIONAL_SINGLE([tiller-namespace], [mandatory namespace where tiller is running])
 # ARG_POSITIONAL_SINGLE([namespace], [mandatory namespace to install into])
 # ARG_POSITIONAL_SINGLE([git-url], [mandatory url of the enviroment code to checkout e.g. https://github.com/ocd-scm/ocd-demo-env-build.git ])
