@@ -20,16 +20,13 @@ ENV OCD_SCRIPTS_PATH=/usr/local/bin
 ENV OCD_CHECKOUT_PATH=/opt/app-root/work/checkout
 ENV GNUPGHOME=/opt/app-root/work/.gnupg
 
-COPY ./bin/* /usr/local/bin/
-
 RUN mkdir /opt/app-root/src/.kube && chmod -R a+w /opt/app-root/src/.kube
+RUN mkdir -p /opt/app-root/work && chmod -R a+w /opt/app-root/work
+RUN mkdir -p /opt/app-root/src/.ssh && chmod -R a+w /opt/app-root/src/.ssh
 
 COPY hooks-push.json /opt/app-root/src
 COPY hooks-release.json /opt/app-root/src
-
-RUN mkdir -p /opt/app-root/work && chmod -R a+w /opt/app-root/work
-
-RUN mkdir -p /opt/app-root/src/.ssh && chmod -R a+w /opt/app-root/src/.ssh
+COPY ./bin/* /usr/local/bin/
 
 USER 1001
 
