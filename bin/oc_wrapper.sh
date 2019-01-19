@@ -1,20 +1,16 @@
 #!/bin/bash
 
 # try assuming our previous login hasn't timed out
-oc ${INSECURE_SKIP_TLS_VERIFY} $@ 2>/dev/null
+oc ${INSECURE_SKIP_TLS_VERIFY} "$@" 2>/dev/null
 
-# if it didn't work assume that our prevous login has timed out
+# if it didn't work assume that we have yet to login or it timed out
 if [[ "$?" != "0" ]]; then
-    if [ -z "$OPENSHIFT_USER" ]; then
-        (>&2 echo "ERROR could not login OPENSHIFT_USER not set")
-        exit 1
-    fi
-    if [ -z "$OPENSHIFT_PASSWORD" ]; then
-        (>&2 echo "echo ERROR could not login OPENSHIFT_PASSWORD not set")
-        exit 2
-    fi
+
     # do login
-    oc login ${INSECURE_SKIP_TLS_VERIFY} ${OPENSHIFT_SERVER} -u ${OPENSHIFT_USER} -p ${OPENSHIFT_PASSWORD} > /dev/null
+    oc login ${INSECURE_SKIP_TLS_VERIFY} \
+        ${OPENSHIFT_SERVER} \
+        --certificate-authority='/sa-secret-volume/ca.crt' \
+        --token="$(< /sa-secret-volume/token)"
 
     if [[ "$?" != "0" ]]; then
         (>&2 echo "ERROR Could not oc login. Exiting")
@@ -22,5 +18,5 @@ if [[ "$?" != "0" ]]; then
     fi
 
     #try again
-    oc ${INSECURE_SKIP_TLS_VERIFY} $@
+    oc ${INSECURE_SKIP_TLS_VERIFY} "$@"
 fi
