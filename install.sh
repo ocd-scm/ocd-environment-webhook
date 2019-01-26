@@ -54,12 +54,19 @@ set +a
 
 echo WARNING is will fail unless you have run: oc policy add-role-to-user edit "system:serviceaccount:${TILLER_NAMESPACE}:tiller"
 
+# create a release of the ocd-environment-webhook
 helmfile --log-level debug apply
 
+# mount the servie account secret so that the app can login and talk to tiller
 MOUNTABLE_SECRETS='Mountable secrets:'
 SECRET_NAME=$(oc describe sa sa-ocd-${PROJECT} | sed $(printf 's/./&,/%s' ${#MOUNTABLE_SECRETS}) | awk  'BEGIN{FS=OFS=","} {if ($1 ~ /^[ \t]*$/) $1=ch; else ch=$1} 1'  | grep "$MOUNTABLE_SECRETS" | sed 's/[, ]*//g' | awk -F':' '{print $2}' | grep -v docker | grep token)
 echo "mounting service account secret named '$SECRET_NAME' into dc/ocd-environment-webhook"
 oc set volume dc/ocd-environment-webhook --add --name=sa-secret-volume --mount-path=/sa-secret-volume --secret-name=$SECRET_NAME
 
+# ensure that the service account can access tiller
+oc create role podreadertiller --verb=get,list,watch --resource=pod -n "$TILLER_NAMESPACE"
+oc create role portforwardtiller --verb=create,get,list,watch --resource=pods/portforward -n "$TILLER_NAMESPACE"
+oc policy add-role-to-user podreadertiller "system:serviceaccount:${PROJECT}:sa-ocd-${PROJECT}" --role-namespace="$TILLER_NAMESPACE" -n "$TILLER_NAMESPACE"
+oc policy add-role-to-user portforwardtiller "system:serviceaccount:${PROJECT}:sa-ocd-${PROJECT}" --role-namespace="$TILLER_NAMESPACE" -n "$TILLER_NAMESPACE"
 
 )
