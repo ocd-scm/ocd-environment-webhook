@@ -26,9 +26,13 @@ read -p "Branch ref? (default: refs/heads/master): " OCD_BRANCH
 read -p "Chart instance prefix? (default: $OCD_PROJECT): " OCD_PREFIX
 [ -z "${OCD_PREFIX}" ] && OCD_PREFIX=$OCD_PROJECT
 
+read -p "Use --insecure-no-tls-verify? (default: false): " OCD_NO_TLS_VERIFY
+[ -z "${OCD_NO_TLS_VERIFY}" ] && OCD_NO_TLS_VERIFY=false
+
 set +x
 
 ./installer.bash \
+  --insecure-no-tls-verify=$OCD_NO_TLS_VERIFY \
   $OCD_SERVER   \
   $TILLER_NAMESPACE \
   $OCD_PROJECT \
