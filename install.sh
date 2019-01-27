@@ -64,8 +64,8 @@ echo "mounting service account secret named '$SECRET_NAME' into dc/ocd-environme
 oc set volume dc/ocd-environment-webhook --add --name=sa-secret-volume --mount-path=/sa-secret-volume --secret-name=$SECRET_NAME
 
 # ensure that the service account can access tiller
-oc get role podreadertiller 2>/dev/null
-if [[ "$?" != "0" ]]; then
+if ! oc get role podreadertiller 2>/dev/null
+then
     oc create role podreadertiller --verb=get,list,watch --resource=pod -n "$TILLER_NAMESPACE"
     oc create role portforwardtiller --verb=create,get,list,watch --resource=pods/portforward -n "$TILLER_NAMESPACE"
     oc policy add-role-to-user podreadertiller "system:serviceaccount:${PROJECT}:sa-ocd-${PROJECT}" --role-namespace="$TILLER_NAMESPACE" -n "$TILLER_NAMESPACE"
