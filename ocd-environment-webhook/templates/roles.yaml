@@ -2,7 +2,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   creationTimestamp: null
-  name: {{ print .Values.env "isiwriter"  | quote }}
+  name: {{ print .Values.name "isiwriter"  | quote }}
 rules:
 - apiGroups:
   - image.openshift.io
@@ -15,7 +15,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   creationTimestamp: null
-  name: {{ print .Values.env "isreader"  | quote }}
+  name: {{ print .Values.name "isreader"  | quote }}
 rules:
 - apiGroups:
   - image.openshift.io
@@ -30,7 +30,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   creationTimestamp: null
-  name: {{ print .Values.env "istreader"  | quote }}
+  name: {{ print .Values.name "istreader"  | quote }}
 rules:
 - apiGroups:
   - image.openshift.io
@@ -45,7 +45,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   creationTimestamp: null
-  name: {{ print .Values.env "istwriter"  | quote }}
+  name: {{ print .Values.name "istwriter"  | quote }}
 rules:
 - apiGroups:
   - image.openshift.io
@@ -60,7 +60,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   creationTimestamp: null
-  name: {{ print .Values.env "iswriter"  | quote }}
+  name: {{ print .Values.name "iswriter"  | quote }}
 rules:
 - apiGroups:
   - image.openshift.io
@@ -75,7 +75,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   creationTimestamp: null
-  name: {{ print .Values.env "sget"  | quote }}
+  name: {{ print .Values.name "sget"  | quote }}
 rules:
 - apiGroups:
   - ""
