@@ -32,11 +32,11 @@ read -p "Use --insecure-no-tls-verify? (default: false): " OCD_NO_TLS_VERIFY
 set +x
 
 ./installer.bash \
-  --insecure-no-tls-verify=$OCD_NO_TLS_VERIFY \
-  $OCD_SERVER   \
-  $TILLER_NAMESPACE \
-  $OCD_PROJECT \
-  $OCD_GIT_URL \
-  $OCD_REPO_FULLNAME \
-  $OCD_BRANCH  \
-  $OCD_PREFIX
+  --insecure-no-tls-verify="$OCD_NO_TLS_VERIFY" \
+  "$OCD_SERVER"   \
+  "$TILLER_NAMESPACE" \
+  "$OCD_PROJECT" \
+  "$OCD_GIT_URL" \
+  "$OCD_REPO_FULLNAME" \
+  "$OCD_BRANCH"  \
+  "$OCD_PREFIX"
