@@ -80,7 +80,7 @@ roleRef:
   name: {{ print .Values.name "dcwriter"  | quote }}
 subjects:
 - kind: ServiceAccount
-  name: get deploymentconfigs.apps.openshift.io
+  name: {{ print "sa-ocd-" .Values.env  | quote }}
   namespace: {{ required "Missing required value project" .Values.project | quote }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -94,5 +94,5 @@ roleRef:
   name: {{ print .Values.name "dcreader"  | quote }}
 subjects:
 - kind: ServiceAccount
-  name: get deploymentconfigs.apps.openshift.io
+  name: {{ print "sa-ocd-" .Values.env  | quote }}
   namespace: {{ required "Missing required value project" .Values.project | quote }}
