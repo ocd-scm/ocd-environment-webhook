@@ -68,19 +68,6 @@ subjects:
 - kind: ServiceAccount
   name: {{ print "sa-ocd-" .Values.env  | quote }}
   namespace: {{ required "Missing required value project" .Values.project | quote }}
-# apiVersion: rbac.authorization.k8s.io/v1
-# kind: RoleBinding
-# metadata:
-#   creationTimestamp: null
-#   name: rcreadereng
-# roleRef:
-#   apiGroup: rbac.authorization.k8s.io
-#   kind: Role
-#   name: rcreadereng
-# subjects:
-# - kind: ServiceAccount
-#   name: {{ print "sa-ocd-" .Values.env  | quote }}
-#   namespace: {{ required "Missing required value project" .Values.project | quote }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
