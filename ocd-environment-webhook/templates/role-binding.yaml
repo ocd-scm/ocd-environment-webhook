@@ -3,11 +3,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   creationTimestamp: null
-  name: {{ print .Values.env "isiwriter"  | quote }}
+  name: {{ print .Values.name "isiwriter"  | quote }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: {{ print .Values.env "isiwriter"  | quote }}
+  name: {{ print .Values.name "isiwriter"  | quote }}
 subjects:
 - kind: ServiceAccount
   name: {{ print "sa-ocd-" .Values.env  | quote }}
@@ -31,11 +31,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   creationTimestamp: null
-  name: {{ print .Values.env "istreader"  | quote }}
+  name: {{ print .Values.name "isreader"  | quote }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: {{ print .Values.env "istreader"  | quote }}
+  name: {{ print .Values.name "isreader"  | quote }}
 subjects:
 - kind: ServiceAccount
   name: {{ print "sa-ocd-" .Values.env  | quote }}
@@ -45,11 +45,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   creationTimestamp: null
-  name: {{ print .Values.env "istwriter"  | quote }}
+  name: {{ print .Values.name "istwriter"  | quote }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: {{ print .Values.env "istwriter"  | quote }}
+  name: {{ print .Values.name "istwriter"  | quote }}
 subjects:
 - kind: ServiceAccount
   name: {{ print "sa-ocd-" .Values.env  | quote }}
@@ -59,11 +59,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   creationTimestamp: null
-  name: {{ print .Values.env "iswriter"  | quote }}
+  name: {{ print .Values.name "iswriter"  | quote }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: {{ print .Values.env "iswriter"  | quote }}
+  name: {{ print .Values.name "iswriter"  | quote }}
 subjects:
 - kind: ServiceAccount
   name: {{ print "sa-ocd-" .Values.env  | quote }}
@@ -73,11 +73,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   creationTimestamp: null
-  name: {{ print .Values.env "sget"  | quote }}
+  name: {{ print .Values.name "sget"  | quote }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: {{ print .Values.env "sget"  | quote }}
+  name: {{ print .Values.name "sget"  | quote }}
 subjects:
 - kind: ServiceAccount
   name: {{ print "sa-ocd-" .Values.env  | quote }}
