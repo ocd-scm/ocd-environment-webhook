@@ -96,3 +96,45 @@ subjects:
 - kind: ServiceAccount
   name: {{ print "sa-ocd-" .Values.env  | quote }}
   namespace: {{ required "Missing required value project" .Values.project | quote }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  creationTimestamp: null
+  name: {{ print .Values.name "saget"  | quote }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ print .Values.name "saget"  | quote }}
+subjects:
+- kind: ServiceAccount
+  name: {{ print "sa-build-" .Values.name  | quote }}
+  namespace: {{ required "Missing required value project" .Values.buildNamespace | quote }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  creationTimestamp: null
+  name: {{ print .Values.name "bcget"  | quote }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ print .Values.name "bcget"  | quote }}
+subjects:
+- kind: ServiceAccount
+  name: {{ print "sa-build-" .Values.name  | quote }}
+  namespace: {{ required "Missing required value project" .Values.buildNamespace | quote }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  creationTimestamp: null
+  name: {{ print .Values.name "bcpatch"  | quote }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ print .Values.name "bcpatch"  | quote }}
+subjects:
+- kind: ServiceAccount
+  name: {{ print "sa-build-" .Values.name  | quote }}
+  namespace: {{ required "Missing required value project" .Values.buildNamespace | quote }}
