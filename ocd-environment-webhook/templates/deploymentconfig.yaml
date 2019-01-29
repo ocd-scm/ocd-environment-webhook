@@ -33,6 +33,7 @@ spec:
       labels:
         name: {{ .Values.name | quote }}
     spec:
+      serviceAccountName:  {{ print "sa-ocd-" .Values.env  | quote }}
       revisionHistoryLimit: 10,
       strategy:
         type: Rolling

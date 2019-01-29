@@ -9,8 +9,8 @@ if [[ "$?" != "0" ]]; then
     # do login
     oc login ${INSECURE_SKIP_TLS_VERIFY} \
         ${OPENSHIFT_SERVER} \
-        --certificate-authority='/sa-secret-volume/ca.crt' \
-        --token="$(< /sa-secret-volume/token)"
+        --certificate-authority='/var/run/secrets/kubernetes.io/serviceaccount/ca.crt' \
+        --token="$(< /var/run/secrets/kubernetes.io/serviceaccount/token)"
 
     if [[ "$?" != "0" ]]; then
         (>&2 echo "ERROR Could not oc login. Exiting")
