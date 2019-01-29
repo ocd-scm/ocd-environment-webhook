@@ -58,7 +58,7 @@ echo WARNING is will fail unless you have run: oc policy add-role-to-user edit "
 helmfile --log-level debug apply
 
 # ensure that the service account can access tiller
-if ! oc get role podreadertiller 2>/dev/null
+if ! oc get role podreadertiller -n "$TILLER_NAMESPACE" 2>/dev/null 1>/dev/null
 then
     oc create role podreadertiller --verb=get,list,watch --resource=pod -n "$TILLER_NAMESPACE"
     oc create role portforwardtiller --verb=create,get,list,watch --resource=pods/portforward -n "$TILLER_NAMESPACE"
