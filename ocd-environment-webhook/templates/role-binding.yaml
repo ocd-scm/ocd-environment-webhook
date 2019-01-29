@@ -108,7 +108,7 @@ roleRef:
   name: {{ print .Values.name "saget"  | quote }}
 subjects:
 - kind: ServiceAccount
-  name: {{ print "sa-ocd-" .Values.name  | quote }}
+  name: {{ print "sa-ocd-" .Values.env  | quote }}
   namespace: {{ required "Missing required value project" .Values.project | quote }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -122,7 +122,7 @@ roleRef:
   name: {{ print .Values.name "bcget"  | quote }}
 subjects:
 - kind: ServiceAccount
-  name: {{ print "sa-ocd-" .Values.name  | quote }}
+  name: {{ print "sa-ocd-" .Values.env  | quote }}
   namespace: {{ required "Missing required value project" .Values.project | quote }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -136,5 +136,5 @@ roleRef:
   name: {{ print .Values.name "bcpatch"  | quote }}
 subjects:
 - kind: ServiceAccount
-  name: {{ print "sa-ocd-" .Values.name  | quote }}
+  name: {{ print "sa-ocd-" .Values.env  | quote }}
   namespace: {{ required "Missing required value project" .Values.project | quote }}
