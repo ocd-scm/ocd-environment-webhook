@@ -50,6 +50,7 @@ WEBHOOK_REF_REGEX="$_arg_webhook_ref_regex"
 ENV_PREFIX="$_arg_env"
 WEBHOOK_SECRET="$_arg_webhook_secret"
 HOOKS_RELEASE="$_arg_release_hook"
+BUILD_NAMESPACE="$_arg_build_amespace"
 set +a
 
 echo WARNING is will fail unless you have run: oc policy add-role-to-user edit "system:serviceaccount:${TILLER_NAMESPACE}:tiller"
@@ -57,13 +58,24 @@ echo WARNING is will fail unless you have run: oc policy add-role-to-user edit "
 # create a release of the ocd-environment-webhook
 helmfile --log-level debug apply
 
+export USER="system:serviceaccount:${PROJECT}:sa-ocd-${PROJECT}"
+
 # ensure that the service account can access tiller
-if ! oc get role podreadertiller -n "$TILLER_NAMESPACE" 2>/dev/null 1>/dev/null
+if ! oc policy who-can list pods -n "$TILLER_NAMESPACE" | grep  "$USER" 2>/dev/null 1>/dev/null
 then
-    oc create role podreadertiller --verb=get,list,watch --resource=pod -n "$TILLER_NAMESPACE"
-    oc create role portforwardtiller --verb=create,get,list,watch --resource=pods/portforward -n "$TILLER_NAMESPACE"
-    oc policy add-role-to-user podreadertiller "system:serviceaccount:${PROJECT}:sa-ocd-${PROJECT}" --role-namespace="$TILLER_NAMESPACE" -n "$TILLER_NAMESPACE"
-    oc policy add-role-to-user portforwardtiller "system:serviceaccount:${PROJECT}:sa-ocd-${PROJECT}" --role-namespace="$TILLER_NAMESPACE" -n "$TILLER_NAMESPACE"
+    if ! oc get roles -n  "$TILLER_NAMESPACE" | grep podreadertiller 2>/dev/null 1>/dev/null
+    then
+        oc create role podreadertiller --verb=get,list,watch --resource=pod -n "$TILLER_NAMESPACE"
+        oc create role portforwardtiller --verb=create,get,list,watch --resource=pods/portforward -n "$TILLER_NAMESPACE"
+    fi
+    oc policy add-role-to-user podreadertiller "$USER" --role-namespace="$TILLER_NAMESPACE" -n "$TILLER_NAMESPACE"
+    oc policy add-role-to-user portforwardtiller "$USER" --role-namespace="$TILLER_NAMESPACE" -n "$TILLER_NAMESPACE"
+fi
+
+# ensure the service account can promote images
+if ! oc policy who-can get imagestreams -n "$BUILD_NAMESPACE" | grep  "$USER" 1>/dev/null 2>/dev/null
+then
+    oc policy add-role-to-user ocd-environment-webhookisreader "$USER" --role-namespace="$BUILD_NAMESPACE" -n "$BUILD_NAMESPACE"
 fi
 
 

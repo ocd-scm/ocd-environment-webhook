@@ -15,6 +15,13 @@ if [ -z "${OCD_GIT_URL}" ] || [ "${OCD_GIT_URL}" == "" ]; then
      exit 2
 fi
 
+read -p "The project wher the images are built and promoted from? " OCD_BUILD_NAMESPACE
+
+if [ -z "${OCD_BUILD_NAMESPACE}" ] || [ "${OCD_BUILD_NAMESPACE}" == "" ]; then
+     >&2 echo "ERROR you must provide a build namespace (e.g., your-eng)"
+     exit 2
+fi
+
 OCD_REPO_FULLNAME_GUESS=$(echo $OCD_GIT_URL | awk -F '/' '{print $(NF-1) "/" $NF}' | sed 's/\.git$//1')
 
 read -p "Repo name? (default: $OCD_REPO_FULLNAME_GUESS): " OCD_REPO_FULLNAME
@@ -36,6 +43,7 @@ set +x
   "$OCD_SERVER"   \
   "$TILLER_NAMESPACE" \
   "$OCD_PROJECT" \
+  "$OCD_BUILD_NAMESPACE" \
   "$OCD_GIT_URL" \
   "$OCD_REPO_FULLNAME" \
   "$OCD_BRANCH"  \

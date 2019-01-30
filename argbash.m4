@@ -9,6 +9,7 @@ exit 11  #)Created by argbash-init v2.7.1
 # ARG_POSITIONAL_SINGLE([oc-server], [mandatory server e.g. 192.168.99.100:8443])
 # ARG_POSITIONAL_SINGLE([tiller-namespace], [mandatory namespace where tiller is running])
 # ARG_POSITIONAL_SINGLE([namespace], [mandatory namespace to install into])
+# ARG_POSITIONAL_SINGLE([build-amespace], [mandatory namespace where images are built])
 # ARG_POSITIONAL_SINGLE([git-url], [mandatory url of the enviroment code to checkout e.g. https://github.com/ocd-scm/ocd-demo-env-build.git ])
 # ARG_POSITIONAL_SINGLE([git-name], [mandatory name of the repo that fires the webhook used to sanity check the webhook payload is from the correct repo e.g. ocd-scm/ocd-demo-env-build])
 # ARG_POSITIONAL_SINGLE([webhook-ref-regex], [mandatory the regex to match the git ref e.g. "refs/heads/master" to match a branch or ".*-RELEASE" to match a release tag])
