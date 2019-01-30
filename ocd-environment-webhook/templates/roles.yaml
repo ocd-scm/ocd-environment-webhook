@@ -50,7 +50,7 @@ rules:
 - apiGroups:
   - image.openshift.io
   resources:
-  - imagestreams
+  - imagestreamtags
   verbs:
   - create
   - update
