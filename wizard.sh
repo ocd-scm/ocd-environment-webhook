@@ -15,7 +15,7 @@ if [ -z "${OCD_GIT_URL}" ] || [ "${OCD_GIT_URL}" == "" ]; then
      exit 2
 fi
 
-read -p "The project wher the images are built and promoted from? " OCD_BUILD_NAMESPACE
+read -p "The project where the images are built and promoted from? " OCD_BUILD_NAMESPACE
 
 if [ -z "${OCD_BUILD_NAMESPACE}" ] || [ "${OCD_BUILD_NAMESPACE}" == "" ]; then
      >&2 echo "ERROR you must provide a build namespace (e.g., your-eng)"
