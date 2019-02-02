@@ -75,7 +75,11 @@ fi
 # ensure the service account can promote images
 if ! oc policy who-can get imagestreams -n "$BUILD_NAMESPACE" | grep  "$USER" 1>/dev/null 2>/dev/null
 then
-    oc policy add-role-to-user ocd-environment-webhookisreader "$USER" --role-namespace="$BUILD_NAMESPACE" -n "$BUILD_NAMESPACE"
+    oc policy add-role-to-user ocd-$ENV_PREFIX-isreader "$USER" --role-namespace="$BUILD_NAMESPACE" -n "$BUILD_NAMESPACE"
+fi
+if ! oc policy who-can get imagestreamtags -n "$BUILD_NAMESPACE" | grep  "$USER" 1>/dev/null 2>/dev/null
+then
+    oc policy add-role-to-user ocd-$ENV_PREFIX-istreader "$USER" --role-namespace="$BUILD_NAMESPACE" -n "$BUILD_NAMESPACE"
 fi
 
 
