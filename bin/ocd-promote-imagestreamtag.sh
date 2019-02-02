@@ -31,6 +31,12 @@ fi
 
 set +x
 
+if ! oc get imagestream  "$IMAGE" -n "${PROMOTE_PROJECT_TO}"
+then
+    echo "Creating image stream  $IMAGE in ${PROMOTE_PROJECT_TO}"
+    oc create imagestream "$IMAGE" -n  "${PROMOTE_PROJECT_TO}"
+fi
+
 if [ -n "${IMAGE}" ] && [ -n "${PROMOTE_PROJECT_FROM}" ] && [ -n "${PROMOTE_PROJECT_TO}" ]; then 
     echo promoting "$IMAGE" using tag "$TAG" from "$PROMOTE_PROJECT_FROM" to "$PROMOTE_PROJECT_TO"
     oc tag "$PROMOTE_PROJECT_FROM/$IMAGE:$TAG" "$PROMOTE_PROJECT_TO/$IMAGE:$TAG"
