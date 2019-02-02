@@ -10,6 +10,7 @@ releases:
     values:
       - tillerNamespace:  "{{ requiredEnv "TILLER_NAMESPACE" }}"
       - project: "{{ requiredEnv "PROJECT" }}"
+      - buildNamespace: "{{ requiredEnv "BUILD_NAMESPACE" }}"
       - insecureSkipTlsVerify: {{ env "INSECURE_NO_TLS_VERIFY" | default "false"  }}
       - hooksRelease: {{ env "HOOKS_RELEASE" | default "false"  }}
       - envGitUrl: "{{ requiredEnv "GIT_URL" }}"
