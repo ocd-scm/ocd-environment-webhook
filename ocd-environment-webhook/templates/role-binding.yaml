@@ -161,7 +161,7 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: {{ print .Values.name "istreader" .Values.buildNamespace | quote }}
+  name: {{ print .Values.name "istreader" | quote }}
 subjects:
 - kind: ServiceAccount
   name: {{ print "sa-ocd-" .Values.env  | quote }}
