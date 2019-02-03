@@ -7,4 +7,4 @@ keywords:
 - openshift
 sources:
 - https://github.com/ocd-scm/ocd-environment-webhook
-version: "1.0.0"
+version: "1.0.0-M1"
