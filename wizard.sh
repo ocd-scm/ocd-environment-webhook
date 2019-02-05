@@ -8,7 +8,7 @@ echo "OCD_PROJECT=${OCD_PROJECT}"
 OCD_SERVER=$(oc project | sed 's/.*"https:\/\/\([^"].*\)".*/\1/g')
 echo "OCD_SERVER=${OCD_SERVER}"
 
-read -p "The git repo url (consider using a person access token)? " OCD_GIT_URL
+read -p "The git repo url? " OCD_GIT_URL
 
 if [ -z "${OCD_GIT_URL}" ] || [ "${OCD_GIT_URL}" == "" ]; then
      >&2 echo "ERROR you must provide a git url"
