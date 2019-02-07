@@ -28,6 +28,10 @@ COPY hooks-push.json /opt/app-root/src
 COPY hooks-release.json /opt/app-root/src
 COPY ./bin/* /usr/local/bin/
 
+#RUN touch /opt/app-root/src/.gitconfig && chgrp root /opt/app-root/src/.gitconfig && chmod g+w /opt/app-root/src/.gitconfig
+
+RUN git config --global user.email "ocd-environemt-webhook@ocd-scm.github.com" && git config --global user.name "OCD Env Webhook"
+
 USER 1001
 
 EXPOSE 9000
