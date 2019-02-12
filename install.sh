@@ -75,7 +75,7 @@ fi
 # ensure the service account can view build environment registry to be able to promote images
 if ! oc get rolebindings -o json -n "$BUILD_NAMESPACE" | jq '.items[]  | select(.roleRef.name=="registry-viewer") | .userNames' | grep "$USER" 1>/dev/null 2>/dev/null
 then
-    oc policy add-role-to-user registry-viewer "$USER" -n  "$BUILD_NAMESPACE"
+    oc policy add-role-to-user registry-viewer "$USER" -n "$BUILD_NAMESPACE"
 fi
 
 # ensure the service account can edit the current project
