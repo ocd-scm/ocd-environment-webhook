@@ -35,12 +35,6 @@ find ${OCD_CHECKOUT_PATH} -name helmfile.yaml | while read YAML; do
   folder=$(realpath $(dirname $YAML))
   pushd $folder
 
-  # it would be nice if helmfile had this event hook
-  if [ -f ./ocd-pre-apply-hook ]; then
-    echo running $folder/ocd-pre-apply-hook
-    ./ocd-pre-apply-hook
-  fi
-
   # here we use a subshell to jail the env vars loaded from the file in the current folder
   (
 
@@ -51,15 +45,22 @@ find ${OCD_CHECKOUT_PATH} -name helmfile.yaml | while read YAML; do
       source ./envvars
       set +a
     fi
-     
-    helmfile --log-level debug apply 
-  )
 
-  # it would be nice if helmfile had this event hook
-  if [ -f ./ocd-post-apply-hook ]; then
-    echo running $folder/ocd-post-apply-hook
-    ./ocd-post-apply-hook
-  fi
+    # it would be nice if helmfile had this event hook
+    if [ -f ./ocd-pre-apply-hook ]; then
+      echo running $folder/ocd-pre-apply-hook
+      ./ocd-pre-apply-hook
+    fi
+
+    helmfile --log-level debug apply 
+
+    # it would be nice if helmfile had this event hook
+    if [ -f ./ocd-post-apply-hook ]; then
+      echo running $folder/ocd-post-apply-hook
+      ./ocd-post-apply-hook
+    fi
+
+  )
 
   popd
 done
