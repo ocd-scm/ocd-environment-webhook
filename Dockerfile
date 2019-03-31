@@ -1,4 +1,4 @@
-FROM simonmassey/ocd-tools:v1.0.8
+FROM simonmassey/ocd-tools:v1.0.10
 
 MAINTAINER Simon Massey <simbo1905@60hertz.com>
 
