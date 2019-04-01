@@ -3,6 +3,7 @@
     --opt insecure-no-tls-verify \
     --opt webhook-secret \
     --opt release-hook \
+    --opt chatbot-announce \
     --pos oc-server \
     --pos tiller-namespace \
     --pos namespace \

@@ -50,7 +50,8 @@ WEBHOOK_REF_REGEX="$_arg_webhook_ref_regex"
 ENV_PREFIX="$_arg_env"
 WEBHOOK_SECRET="$_arg_webhook_secret"
 HOOKS_RELEASE="$_arg_release_hook"
-BUILD_NAMESPACE="$_arg_build_amespace"
+BUILD_NAMESPACE="$_arg_build_namespace"
+CHATBOT_NOTIFY="$_arg_chatbot_announce"
 set +a
 
 echo WARNING is will fail unless you have run: oc policy add-role-to-user edit "system:serviceaccount:${TILLER_NAMESPACE}:tiller"
