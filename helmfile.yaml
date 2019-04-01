@@ -18,7 +18,10 @@ releases:
       - webhookRefRegex: "{{ env "WEBHOOK_REF_REGEX" }}"
       - webhookSecret: "{{ env "WEBHOOK_SECRET" }}"
       - env: "{{ requiredEnv "ENV_PREFIX" }}"
-      - deploy_env: 
-        - name: OPENSHIFT_SERVER
-          value: "{{ requiredEnv "OPENSHIFT_SERVER" }}"
+      - openshiftServer: "{{ requiredEnv "OPENSHIFT_SERVER" }}"
+      - chatbotNotify: "{{ env "CHATBOT_NOTIFY" }}"
+      # // use deploy_env for arbitrary env vars in used by you own ocd-pre/post-apply-hook
+      # - deploy_env: 
+      #   - name: SOMETHING
+      #     value: "{{ requiredEnv "SOME_VALUE" }}"
 

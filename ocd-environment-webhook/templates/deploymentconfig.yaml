@@ -53,6 +53,8 @@ spec:
           - name: "HELM_VERSION"
             value: {{ .Values.helmVersion | quote }}
           {{- end }}
+          - name: OPENSHIFT_SERVER
+            value: "{{ required "Missing required value openshiftServer" .Values.openshiftServer | quote }}"
           - name: "WEBHOOK_REPO_FULLNAME"
             value: {{ required "Missing required value webhookRepFullname" .Values.webhookRepFullname | quote }}
           - name: "PROJECT"
@@ -63,6 +65,8 @@ spec:
             value: {{ required "Missing required value tillerNamespace" .Values.tillerNamespace | quote }}
           - name: "WEBHOOK_REF_REGEX"
             value: {{ required "Missing required value webhookRefRegex" .Values.webhookRefRegex | quote }}
+          - name: "CHATBOT_NOTIFY"
+            value: {{ .Values.chatbotNotify }}
           {{- if .Values.webhookSecret }}
           - name: "WEBHOOK_SECRET"
             value: {{ .Values.webhookSecret | quote }}
