@@ -36,10 +36,13 @@ read -p "Chart instance prefix? (default: $OCD_PROJECT): " OCD_PREFIX
 read -p "Use --insecure-no-tls-verify? (default: false): " OCD_NO_TLS_VERIFY
 [ -z "${OCD_NO_TLS_VERIFY}" ] && OCD_NO_TLS_VERIFY=false
 
+read -p "Chatbot base64 encoded notify script? " OCD_CHATBOT_NOTIFY
+
 set +x
 
 ./installer.bash \
   --insecure-no-tls-verify="$OCD_NO_TLS_VERIFY" \
+  --chatbot-announce="$OCD_CHATBOT_NOTIFY" \
   "$OCD_SERVER"   \
   "$TILLER_NAMESPACE" \
   "$OCD_PROJECT" \
