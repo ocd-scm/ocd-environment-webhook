@@ -43,6 +43,8 @@ An example of installing it into the current project on Minishift deploying an e
   build
 ```
 
-See the [wiki](https://github.com/ocd-scm/ocd-meta/wiki/Minishift) for setting up minishift with helm tiller. 
+See the [wiki minishift](https://github.com/ocd-scm/ocd-meta/wiki/Minishift) page for setting up minishift with helm tiller. 
+
+See the [wiki openshift](https://github.com/ocd-scm/ocd-meta/wiki/OpenShift-Online-Pro-(openshift-dot-com)) page for setting up on openshift online pro. 
 
 
