@@ -23,5 +23,5 @@ releases:
       # // use deploy_env for arbitrary env vars in used by you own ocd-pre/post-apply-hook
       # - deploy_env: 
       #   - name: SOMETHING
-      #     value: "{{ requiredEnv "SOME_VALUE" }}"
+      #     value: "{{ env "SOME_VALUE" }}"
 
