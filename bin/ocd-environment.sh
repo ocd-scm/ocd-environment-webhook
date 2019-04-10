@@ -22,6 +22,7 @@ fi
 
 set -x
 
+# source envvar in the top level folder
 if [ -f "${OCD_CHECKOUT_PATH}/envvars" ]; then
   echo "loading ${OCD_CHECKOUT_PATH}/envvars"
   set -a 
@@ -30,8 +31,17 @@ if [ -f "${OCD_CHECKOUT_PATH}/envvars" ]; then
   set +a
 fi
 
+# run any ocd-pre-apply-hook in the top level folder
+# it would be nice if helmfile had this pre global event hook
+if [ -f "${OCD_CHECKOUT_PATH}/ocd-pre-apply-hook" ]; then
+  echo running ${OCD_CHECKOUT_PATH}/ocd-pre-apply-hook
+  pushd ${OCD_CHECKOUT_PATH}
+  ./ocd-pre-apply-hook
+  popd
+fi
+
 # down to work. rather than one monster helmfile can have on per microservice in own folder with own env vars
-find ${OCD_CHECKOUT_PATH} -name helmfile.yaml | while read YAML; do
+find ${OCD_CHECKOUT_PATH} -name helmfile.yaml | sort | while read YAML; do
   folder=$(realpath $(dirname $YAML))
   pushd $folder
 
@@ -64,3 +74,12 @@ find ${OCD_CHECKOUT_PATH} -name helmfile.yaml | while read YAML; do
 
   popd
 done
+
+# run any ocd-post-apply-hook in the top level folder
+# it would be nice if helmfile had this pre global event hook
+if [ -f "${OCD_CHECKOUT_PATH}/ocd-post-apply-hook" ]; then
+  echo running ${OCD_CHECKOUT_PATH}/ocd-post-apply-hook
+  pushd ${OCD_CHECKOUT_PATH}
+  ./ocd-post-apply-hook
+  popd
+fi
