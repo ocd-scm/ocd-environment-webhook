@@ -41,15 +41,15 @@ The `ocd-environment.sh` runs the following algoritm:
 
  1. Sources an optional `envvar` file in the top folder to load environment variables
  1. Runs an optional top level `ocd-pre-apply-hook` script
- 1. Locates all `helmfile.yaml` subdirectors and in each directory:
+ 1. Locates all subfolders containing `helmfile.yaml` and within each: 
    - Creates a subshell
-   - Sources an optional `envvar` file in the top folder to load environment variables
+   - Sources an optional `envvar` file
    - Runs an optional `ocd-pre-apply-hook` script
    - Runs `helmfile --log-level debug apply `
    - Runs an optional `ocd-post-apply-hook` script
  5. Runs an optional top level `ocd-post-apply-hook` script
 
-Helmfile itself anticipates that you might want to run many helmfiles so has the concept of adding many uniqely named hemlfiles into a helmfile.d folder. Unfortunately Helmfile doesn't have global hooks [/helmfile/issues/331](https://github.com/roboll/helmfile/issues/331) or file hooks. Also this script uses a seperate subshell per helmfile and loads an optional per folder `envvar` that is scoped to the subshell. 
+Helmfile itself anticipates that you might want to run many helmfiles so has the concept of adding many uniqely named hemlfiles into a helmfile.d folder. Unfortunately Helmfile doesn't have global hooks [/helmfile/issues/331](https://github.com/roboll/helmfile/issues/331) or file hooks. Also our script uses a seperate subshell per helmfile and loads an optional per folder `envvar` that is scoped to the subshell. This means that we search for folders that contain `helmfile.yaml` and handle them using the algorithm described above. 
 
 ## Examples
 
