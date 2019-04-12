@@ -1,10 +1,10 @@
 # ocd-environment-webhook
 
-## Status
+The `ocd-environment-webhook` is the cornerstone of OCD. It catches webhook events in a configuration repo then checks out the code in the repo and run any `helmfile.yaml` configuration the configured openshift project. The following diagram shows the overall picture. 
 
-This repo close to a milestone release. You can watch the repo to get notified when it has something to show.
+![ocd environment sequence diagram](https://ocd-scm.github.io/ocd-meta/imgs/ocd-env-webhook-sequence-gitea.png)
 
-## Installation
+## Usage
 
 See the installer: 
 
@@ -29,5 +29,30 @@ Usage: ./installer.bash [--insecure-no-tls-verify <arg>] [--webhook-secret <arg>
 See the [wiki minishift](https://github.com/ocd-scm/ocd-meta/wiki/Minishift) page for setting up minishift with helm tiller. 
 
 See the [wiki openshift](https://github.com/ocd-scm/ocd-meta/wiki/OpenShift-Online-Pro-(openshift-dot-com)) page for setting up on openshift online pro. 
+
+## Details
+
+The entrypoint to the logic is `ocd-hook.sh` which:
+
+ 1. Checks out the code in the repo using `ocd-checkout-env.sh`
+ 1. Runs `ocd-environment.sh` to update the environment
+
+The `ocd-environment.sh` runs the following algoritm: 
+
+ 1. Sources an optional `envvar` file in the top folder to load environment variables
+ 1. Runs an optional top level `ocd-pre-apply-hook` script
+ 1. Locates all `helmfile.yaml` subdirectors and in each directory:
+   - Creates a subshell
+   - Sources an optional `envvar` file in the top folder to load environment variables
+   - Runs an optional `ocd-pre-apply-hook` script
+   - Runs `helmfile --log-level debug apply `
+   - Runs an optional `ocd-post-apply-hook` script
+ 5. Runs an optional top level `ocd-post-apply-hook` script
+
+Helmfile itself anticipates that you might want to run many helmfiles so has the concept of adding many uniqely named hemlfiles into a helmfile.d folder. Unfortunately Helmfile doesn't have global hooks [/helmfile/issues/331](https://github.com/roboll/helmfile/issues/331) or file hooks. Also this script uses a seperate subshell per helmfile and loads an optional per folder `envvar` that is scoped to the subshell. 
+
+## Examples
+
+See the wiki. 
 
 
