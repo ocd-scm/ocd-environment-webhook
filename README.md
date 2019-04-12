@@ -53,6 +53,5 @@ Helmfile itself anticipates that you might want to run many helmfiles so has the
 
 ## Examples
 
-See the wiki. 
-
+See the wiki entry [Example Environment Layout](https://github.com/ocd-scm/ocd-meta/wiki/Example-Environment-Layout) for an overview of a realist example. 
 
