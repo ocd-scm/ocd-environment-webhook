@@ -62,7 +62,11 @@ find ${OCD_CHECKOUT_PATH} -name helmfile.yaml | sort | while read YAML; do
       ./ocd-pre-apply-hook
     fi
 
-    helmfile --log-level debug apply 
+    if [ -z "OCD_LOG_LEVEL" ]; then
+      OCD_LOG_LEVEL=info
+    fi
+
+    helmfile --log-level $OCD_LOG_LEVEL apply 
 
     # it would be nice if helmfile had this event hook
     if [ -f ./ocd-post-apply-hook ]; then
