@@ -62,7 +62,7 @@ find ${OCD_CHECKOUT_PATH} -name helmfile.yaml | sort | while read YAML; do
       ./ocd-pre-apply-hook
     fi
 
-    if [ -z "OCD_LOG_LEVEL" ]; then
+    if [ -z "${OCD_LOG_LEVEL}" ]; then
       OCD_LOG_LEVEL=info
     fi
 
