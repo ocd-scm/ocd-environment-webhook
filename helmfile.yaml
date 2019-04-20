@@ -6,8 +6,9 @@ releases:
     labels:
       webhook: realworld
     chart: ./ocd-environment-webhook
-    version: 1.0.0-SNAPSHOT
+    version: 1.0.1
     values:
+      - imageStreamTag: 'ocd-environment-webhook:v1.0.1'
       - tillerNamespace:  "{{ requiredEnv "TILLER_NAMESPACE" }}"
       - project: "{{ requiredEnv "PROJECT" }}"
       - buildNamespace: "{{ requiredEnv "BUILD_NAMESPACE" }}"
