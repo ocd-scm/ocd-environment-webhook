@@ -9,3 +9,7 @@ spec:
         from:
             kind: DockerImage
             name: docker.io/simonmassey/ocd-environment-webhook:latest
+      - name: "v1.0.1"
+        from:
+            kind: DockerImage
+            name: docker.io/simonmassey/ocd-environment-webhook:v1.0.1
