@@ -13,7 +13,7 @@ oc() {
 # force a login to the the correct project if the session has timed out
 oc project $PROJECT
 
-# this show the curren state but also forces an eror if helm needs init after container restart
+# this show the current state but also forces an eror if helm needs to re-init after container restart
 helm repo list
 if [ "$?" != "0" ]; then
   # reinit
