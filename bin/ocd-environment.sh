@@ -16,8 +16,8 @@ oc project $PROJECT
 # this show the current state but also forces an eror if helm needs to re-init after container restart
 helm repo list
 if [ "$?" != "0" ]; then
-  # reinit
-  helm init --client-only  
+  # reinit https://stackoverflow.com/a/67328869/329496
+  helm init --stable-repo-url https://charts.helm.sh/stable --client-only
 fi
 
 set -x
